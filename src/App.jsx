@@ -8,6 +8,7 @@ import {
 
 import { Navbar } from './components/navbar'
 import { Salgados } from './components/salgados'
+import { Combos } from './components/combo'
 
 const Layout = () => {
   return (
@@ -38,6 +39,7 @@ const App = () => {
       <Route path="/" element={< Layout />}>
         <Route index element={<Home />} />
         <Route path="/salgados" element={<Salgados />} />
+        <Route path="/combos" element={<Combos />} />
       </Route>
     )
   )
