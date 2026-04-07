@@ -9,6 +9,7 @@ import {
 import { Navbar } from './components/navbar'
 import { Salgados } from './components/salgados'
 import { Combos } from './components/combo'
+import { Bebidas } from './components/bebidas'
 
 const Layout = () => {
   return (
@@ -40,6 +41,7 @@ const App = () => {
         <Route index element={<Home />} />
         <Route path="/salgados" element={<Salgados />} />
         <Route path="/combos" element={<Combos />} />
+        <Route path="/bebidas" element={<Bebidas />} />
       </Route>
     )
   )
