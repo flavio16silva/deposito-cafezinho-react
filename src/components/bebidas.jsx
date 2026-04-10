@@ -1,5 +1,6 @@
 import { cervejas } from "../data/cervejas"
 import { refri } from "../data/refrigerante"
+import { Carrinho } from "./carrinho"
 
 const Bebidas = () => {
   const todasBebidas = [...refri, ...cervejas]
@@ -64,6 +65,9 @@ const Bebidas = () => {
               </div>
             ))}
           </div>
+        </div>
+        <div className="flex justify-center mt-8 px-4">
+          <Carrinho />
         </div>
 
       </div>

@@ -1,4 +1,5 @@
 import { combos } from '../data/combos'
+import { Carrinho } from "./carrinho"
 
 const imagens = {
   // Salgados
@@ -98,6 +99,9 @@ const Combos = () => {
               )
             })}
           </div>
+        </div>
+        <div className="mt-8 px-4 flex justify-center">
+          <Carrinho />
         </div>
 
       </div>
