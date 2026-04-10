@@ -1,6 +1,7 @@
 import { StrictMode } from "react"
 import { createRoot } from "react-dom/client"
 import { App } from "./App.jsx"
+import { CarrinhoProvider } from "./context/carrinhoProvider.jsx"
 import "./index.css"
 
 
@@ -9,6 +10,8 @@ const root = createRoot(rootElement)
 
 root.render(
   <StrictMode>
-    <App />
+    <CarrinhoProvider>
+      <App />
+    </CarrinhoProvider>
   </StrictMode>
 )
