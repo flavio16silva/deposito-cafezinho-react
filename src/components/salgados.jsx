@@ -1,4 +1,7 @@
 import { salgadinhos } from "../data/salgadinhos"
+import { Carrinho } from "./carrinho"
+import { useContext } from "react"
+import { CarrinhoContext } from "../context/carrinhoContext"
 
 const Salgados = () => {
   const imagens = {
@@ -9,6 +12,9 @@ const Salgados = () => {
     "Kibe com queijo": "/quibe.png",
     "Salgadinhos sortidos": "/salgadosSortidos.png"
   }
+
+  const { adicionar } = useContext(CarrinhoContext)
+
   return (
     <div className="min-h-screen bg-gray-900">
 
@@ -57,9 +63,26 @@ const Salgados = () => {
                     </div>
                   </div>
                 </div>
+                <div className="flex justify-center mt-2">
+                  <button
+                    onClick={() => adicionar({
+                      id: item.id,
+                      nome: item.nome,
+                      quantidade: 1,
+                      precoUnitario: item.preco10 / 10,
+                      total: item.preco10
+                    })}
+                    className="bg-amber-500 text-white px-4 py-1 rounded hover:bg-amber-400"
+                  >
+                    + Adicionar
+                  </button>
+                </div>
               </div>
             ))}
           </div>
+        </div>
+        <div className="flex justify-center mt-8 px-4">
+          <Carrinho />
         </div>
       </div>
     </div>
