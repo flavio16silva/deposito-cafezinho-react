@@ -5,6 +5,7 @@ import { HiMenu, HiX } from "react-icons/hi"
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isCarrinhoOpen, setIsCarrinhoOpen] = useState(false)
 
   const navItems = [
     { path: "/salgados", label: "Salgados" },
@@ -13,90 +14,115 @@ const Navbar = () => {
   ]
 
   return (
-    <nav className="bg-gray-800 border-b border-gray-200 shadow-sm sticky top-0 z-10">
-      <div className="max-w-7xl mx-auto px-4 py-4">
+    <>
+      <nav className="bg-gray-800 border-b border-gray-700 shadow-sm sticky top-0 z-10">
+        <div className="max-w-full mx-auto px-4 py-3">
 
-        <div className="flex items-center justify-between">
+          <div className="flex flex-col">
 
-          {/* Logo */}
-          <div className="flex items-center gap-3">
-            <div className="flex bg-gray-800 p-3 rounded-md items-start gap-2">
-              <CiBeerMugFull className="text-white text-3xl" />
-              <div>
-                <h1 className="font-logo text-2xl text-white">
-                  Depósito Cafezinho
-                </h1>
-                <p className="font-sans text-sm text-white text-center">
-                  desde 2010
-                </p>
-              </div>
-            </div>
-          </div>
+            {/* Layout: Hamburguer | Logo | Carrinho */}
+            <div className="flex items-center justify-around  md:justify-between gap-12">
 
-          {/* Links Desktop - Centro */}
-          <div className="hidden md:flex items-center justify-center gap-2 absolute left-1/2 transform -translate-x-1/2">
-            {navItems.map(item => (
-              <Link
-                key={item.path}
-                to={item.path}
-                className="px-4 py-2 text-white hover:bg-gray-700 rounded-lg transition-colors"
-              >
-                {item.label}
-              </Link>
-            ))}
-          </div>
-
-          {/* Botão Hambúrguer - Direita (Mobile) */}
-          <button
-            onClick={() => setIsMenuOpen(true)}
-            className="md:hidden text-white p-2 rounded-lg hover:bg-gray-700 transition-colors"
-          >
-            <HiMenu className="text-3xl" />
-          </button>
-
-          {/* Overlay - aparece só quando menu aberto */}
-          {/* {isMenuOpen && (
-            <div
-              className="fixed inset-0 bg-black bg-opacity-50 z-40"
-              onClick={() => setIsMenuOpen(false)}
-            />
-          )} */}
-
-          {/* MENU MOBILE - SEMPRE existe no DOM, apenas desliza */}
-          <div className={`fixed top-0 right-0 h-full w-full bg-gray-800 shadow-2xl z-50 transform transition-transform duration-500 
-            ${isMenuOpen ? "translate-x-0" : "translate-x-full"}`}>
-
-            <div className="flex justify-between items-center p-4 border-b border-gray-700">
-              <span className="text-white font-bold">Menu</span>
+              {/* ESQUERDA: Botão Hamburguer (Mobile) */}
               <button
-                onClick={() => setIsMenuOpen(false)}
-                className="text-white p-1 rounded-lg hover:bg-gray-700"
+                onClick={() => setIsMenuOpen(true)}
+                className=" md:hidden text-white p-2 rounded-lg hover:bg-gray-700 transition-colors"
               >
-                <HiX className="text-2xl" />
+                <HiMenu className="text-3xl" />
               </button>
+
+              {/* CENTRO: Logo */}
+              <div className="flex items-start gap-1 ">
+                <CiBeerMugFull className="text-white text-3xl text-center items-start" />
+                <div className="text-center">
+                  <h1 className="font-logo text-xl md:text-2xl text-white">
+                    Depósito Cafezinho
+                  </h1>
+                  <p className="font-sans text-xs md:text-sm text-gray-300">
+                    desde 2010
+                  </p>
+                </div>
+              </div>
+
+              {/* DIREITA: Carrinho (ícone) */}
+              <div className="w-10 h-10 m flex items-center justify-center">
+                <button
+                  onClick={() => setIsCarrinhoOpen(true)}
+                  className="text-white text-2xl hover:text-amber-400 transition-colors">
+                  🛒
+                </button>
+              </div>
+
             </div>
 
-            <ul className="flex flex-col p-4 space-y-3">
-              <li>
-                <Link to="/cardapio/salgados" onClick={() => setIsMenuOpen(false)} className="block px-4 py-3 text-white hover:bg-gray-700 rounded-lg">
-                  Salgados
-                </Link>
-              </li>
-              <li>
-                <Link to="/cardapio/combos" onClick={() => setIsMenuOpen(false)} className="block px-4 py-3 text-white hover:bg-gray-700 rounded-lg">
-                  Combos
-                </Link>
-              </li>
-              <li>
-                <Link to="/cardapio/bebidas" onClick={() => setIsMenuOpen(false)} className="block px-4 py-3 text-white hover:bg-gray-700 rounded-lg">
-                  Bebidas
-                </Link>
-              </li>
-            </ul>
+            {/* LINKS DESKTOP  */}
+            <div className="hidden md:flex justify-center gap-6 mt-2">
+              <Link to="/salgados" className="text-white hover:text-amber-400 transition-colors">
+                Salgados
+              </Link>
+              <Link to="/combos" className="text-white hover:text-amber-400 transition-colors">
+                Combos
+              </Link>
+              <Link to="/bebidas" className="text-white hover:text-amber-400 transition-colors">
+                Bebidas
+              </Link>
+            </div>
+
           </div>
         </div>
+
+        {/* MENU MOBILE */}
+        <div className={`fixed top-0 left-0 h-full w-80 bg-gray-800 shadow-2xl z-50 transform transition-transform duration-300 ease-in-out
+        ${isMenuOpen ? "translate-x-0" : "-translate-x-full"}`}>
+
+          <div className="flex justify-between items-center p-4 border-b border-gray-700">
+            <span className="text-white font-bold">Menu</span>
+            <button
+              onClick={() => setIsMenuOpen(false)}
+              className="text-white p-1 rounded-lg hover:bg-gray-700"
+            >
+              <HiX className="text-2xl" />
+            </button>
+          </div>
+
+          <ul className="flex flex-col p-4 space-y-3">
+            {navItems.map(item => (
+              <li key={item.path}>
+                <Link
+                  to={item.path}
+                  onClick={() => setIsMenuOpen(false)}
+                  className="block px-4 py-3 text-white hover:bg-gray-700 rounded-lg transition-colors"
+                >
+                  {item.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </nav>
+
+      {/* MODAL DO CARRINHO */}
+      <div className={`fixed top-0 right-0 h-full w-80 bg-gray-800 shadow-2xl z-50 transform transition-transform duration-300 ease-in-out
+      ${isCarrinhoOpen ? "translate-x-0" : "translate-x-full"}`}>
+
+        <div className="flex justify-between items-center p-4 border-b border-gray-700">
+          <span className="text-white font-bold text-lg">🛒 Carrinho</span>
+          <button
+            onClick={() => setIsCarrinhoOpen(false)}
+            className="text-white text-2xl hover:text-gray-300"
+          >
+            ✕
+          </button>
+        </div>
+
+        <div className="flex flex-col items-center justify-center h-64">
+          <span className="text-6xl mb-4">😢</span>
+          <p className="text-gray-300 text-lg">Seu carrinho tá vazio</p>
+          <p className="text-gray-500 text-sm mt-2">Adicione itens para continuar</p>
+        </div>
+
       </div>
-    </nav>
+    </>
   )
 }
 
