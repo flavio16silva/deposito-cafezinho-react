@@ -2,6 +2,9 @@ import { useState } from "react"
 import { Link } from "react-router-dom"
 import { CiBeerMugFull } from "react-icons/ci"
 import { HiMenu, HiX } from "react-icons/hi"
+import { useContext } from "react"
+import { Carrinho } from "./carrinho"
+import { CarrinhoContext } from "../context/carrinhoContext"
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -12,6 +15,8 @@ const Navbar = () => {
     { path: "/combos", label: "Combos" },
     { path: "/bebidas", label: "Bebidas" }
   ]
+
+  const { itens } = useContext(CarrinhoContext)
 
   return (
     <>
@@ -115,10 +120,19 @@ const Navbar = () => {
           </button>
         </div>
 
-        <div className="flex flex-col items-center justify-center h-64">
-          <span className="text-6xl mb-4">😢</span>
-          <p className="text-gray-300 text-lg">Seu carrinho tá vazio</p>
-          <p className="text-gray-500 text-sm mt-2">Adicione itens para continuar</p>
+        {/* CONTEÚDO CONDICIONAL */}
+        <div className="p-4 overflow-y-auto h-[calc(100%-60px)]">
+          {itens.length === 0 ? (
+            // Carrinho vazio
+            <div className="flex flex-col items-center justify-center h-64">
+              <span className="text-6xl mb-4">😢</span>
+              <p className="text-gray-300 text-lg">Seu carrinho tá vazio</p>
+              <p className="text-gray-500 text-sm mt-2">Adicione itens para continuar</p>
+            </div>
+          ) : (
+            // Carrinho com itens
+            <Carrinho />
+          )}
         </div>
 
       </div>
