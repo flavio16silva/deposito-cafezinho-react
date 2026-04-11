@@ -35,47 +35,77 @@ const Salgados = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {salgadinhos.map(item => (
               <div key={item.id} className="text-center">
+
+                {/* Nome do produto */}
                 <h3 className="text-white font-bold text-base">{item.nome}</h3>
-                <div className="p-4">
 
-                  <div className="mt-0 space-y-1">
-                    <div className="flex justify-center items-center gap-2 md:gap-2">
-                      <div className="w-24 h-24 md:w-32 md:h-32">
-                        <img className="w-full h-full object-cover rounded-lg" src={imagens[item.nome]} alt="" />
-                      </div>
-
-                      <div className="space-y-0 md:space-y-1 py-0 md:py-1">
-                        <div className="flex justify-center items-center gap-4">
-                          <div className="text-gray-400 text-sm">10 unidades</div>
-                          <div className="text-amber-400 font-bold">R$ {item.preco10.toFixed(2)}</div>
-                        </div>
-
-                        <div className="flex justify-center items-center gap-4">
-                          <div className="text-gray-400 text-sm">20 unidades</div>
-                          <div className="text-amber-400 font-bold">R$ {item.preco20.toFixed(2)}</div>
-                        </div>
-
-                        <div className="flex justify-center items-center gap-4">
-                          <div className="text-gray-400 text-sm">30 unidades</div>
-                          <div className="text-amber-400 font-bold">R$ {item.preco30.toFixed(2)}</div>
-                        </div>
-                      </div>
-                    </div>
+                {/* Imagem */}
+                <div className="flex justify-center mt-2">
+                  <div className="w-32 h-32">
+                    <img className="w-full h-full object-cover rounded-lg" src={imagens[item.nome]} alt="" />
                   </div>
                 </div>
-                <div className="flex justify-center mt-2">
-                  <button
-                    onClick={() => adicionar({
-                      id: item.id,
-                      nome: item.nome,
-                      quantidade: 1,
-                      precoUnitario: item.preco10 / 10,
-                      total: item.preco10 / 10
-                    })}
-                    className="bg-amber-500 text-white px-4 py-1 rounded hover:bg-amber-400"
-                  >
-                    + Adicionar
-                  </button>
+
+                {/* Preços com botões */}
+                <div className="space-y-2 mt-4">
+
+                  {/* 10 unidades */}
+                  <div className="flex justify-between items-center gap-2 px-4 max-w-xs mx-auto">
+                    <span className="text-gray-400 text-sm whitespace-nowrap">10 unidades</span>
+                    <span className="text-amber-400 font-bold text-sm whitespace-nowrap">R$ {item.preco10.toFixed(2)}</span>
+                    <button
+                      onClick={() => adicionar({
+                        id: `${item.id}-10`,
+                        nome: `${item.nome} (10 und)`,
+                        unidades: 10,
+                        quantidade: 1,
+                        precoUnitario: item.preco10 / 10,
+                        total: item.preco10
+                      })}
+                      className="bg-amber-500 text-white px-3 py-1 rounded text-sm hover:bg-amber-400 whitespace-nowrap"
+                    >
+                      +
+                    </button>
+                  </div>
+
+                  {/* 20 unidades */}
+                  <div className="flex justify-between items-center gap-2 px-4 max-w-xs mx-auto">
+                    <span className="text-gray-400 text-sm whitespace-nowrap">20 unidades</span>
+                    <span className="text-amber-400 font-bold text-sm whitespace-nowrap">R$ {item.preco20.toFixed(2)}</span>
+                    <button
+                      onClick={() => adicionar({
+                        id: `${item.id}-20`,
+                        nome: `${item.nome} (20 und)`,
+                        unidades: 20,
+                        quantidade: 1,
+                        precoUnitario: item.preco20 / 20,
+                        total: item.preco20
+                      })}
+                      className="bg-amber-500 text-white px-3 py-1 rounded text-sm hover:bg-amber-400 whitespace-nowrap"
+                    >
+                      +
+                    </button>
+                  </div>
+
+                  {/* 30 unidades */}
+                  <div className="flex justify-between items-center gap-2 px-4 max-w-xs mx-auto">
+                    <span className="text-gray-400 text-sm whitespace-nowrap">30 unidades</span>
+                    <span className="text-amber-400 font-bold text-sm whitespace-nowrap">R$ {item.preco30.toFixed(2)}</span>
+                    <button
+                      onClick={() => adicionar({
+                        id: `${item.id}-30`,
+                        nome: `${item.nome} (30 und)`,
+                        unidades: 30,
+                        quantidade: 1,
+                        precoUnitario: item.preco30 / 30,
+                        total: item.preco30
+                      })}
+                      className="bg-amber-500 text-white px-3 py-1 rounded text-sm hover:bg-amber-400 whitespace-nowrap"
+                    >
+                      +
+                    </button>
+                  </div>
+
                 </div>
               </div>
             ))}
