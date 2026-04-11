@@ -50,12 +50,18 @@ const Navbar = () => {
               </div>
 
               {/* DIREITA: Carrinho (ícone) */}
-              <div className="w-10 h-10 m flex items-center justify-center">
+              <div className=" relative w-10 h-10 flex items-center justify-center">
                 <button
                   onClick={() => setIsCarrinhoOpen(true)}
-                  className="text-white text-2xl hover:text-amber-400 transition-colors">
+                  className="text-white text-4xl hover:text-amber-400 transition-colors">
                   🛒
                 </button>
+                {/* Contador: Carrinho */}
+                {itens.length > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-amber-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                    {itens.length}
+                  </span>
+                )}
               </div>
 
             </div>
@@ -77,7 +83,7 @@ const Navbar = () => {
         </div>
 
         {/* MENU MOBILE */}
-        <div className={`fixed top-0 left-0 h-full w-80 bg-gray-800 shadow-2xl z-50 transform transition-transform duration-300 ease-in-out
+        <div className={`fixed top-0 left-0 h-full w-2/3 bg-gray-800 shadow-2xl z-50 transform transition-transform duration-300 ease-in-out
         ${isMenuOpen ? "translate-x-0" : "-translate-x-full"}`}>
 
           <div className="flex justify-between items-center p-4 border-b border-gray-700">
@@ -107,7 +113,7 @@ const Navbar = () => {
       </nav>
 
       {/* MODAL DO CARRINHO */}
-      <div className={`fixed top-0 right-0 h-full w-80 bg-gray-800 shadow-2xl z-50 transform transition-transform duration-300 ease-in-out
+      <div className={`fixed top-0 right-0 h-full w-full bg-gray-800 shadow-2xl z-50 transform transition-transform duration-300 ease-in-out
       ${isCarrinhoOpen ? "translate-x-0" : "translate-x-full"}`}>
 
         <div className="flex justify-between items-center p-4 border-b border-gray-700">
