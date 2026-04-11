@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react"
 import { CarrinhoContext } from "./carrinhoContext"
 
-// 2. Cria o provedor (dona dos dados)
+// 2. Cria o provedor (Local dos dados)
 export const CarrinhoProvider = ({ children }) => {
-  // 4. Carregar dados salvos
-  // Estado inicializado diretamente com o valor do localStorage
+  // Carregar dados salvos
+  // Estado inicializado com o valor do localStorage
   const [itens, setItens] = useState(() => {
     const salvo = localStorage.getItem("carrinho")
     return salvo ? JSON.parse(salvo) : []
