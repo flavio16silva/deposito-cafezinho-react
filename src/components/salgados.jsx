@@ -81,9 +81,6 @@ const Salgados = () => {
             ))}
           </div>
         </div>
-        <div className="flex justify-center mt-8 px-4">
-          <Carrinho />
-        </div>
       </div>
     </div>
   )
