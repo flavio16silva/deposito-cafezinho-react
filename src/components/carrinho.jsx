@@ -20,7 +20,7 @@ const Carrinho = () => {
       {itens.map(item => (
         <div key={item.id} className="flex justify-between items-center border-b border-gray-700 py-2">
           <div className="flex-1">
-            <p className="text-white text-sm">{item.nome}</p>
+            <p className="text-white text-lg">{item.nome}</p>
             <p className="text-gray-400 text-xs">{item.quantidade} und</p>
           </div>
 
@@ -47,7 +47,7 @@ const Carrinho = () => {
 
       {/* <div className="mt-3 pt-2 border-t border-gray-700"> */}
       <div className="flex justify-between mt-2">
-        <span className="text-white">Total:</span>
+        <span className="text-white text-lg">Total:</span>
         <span className="text-amber-400 font-bold">R$ {total.toFixed(2)}</span>
       </div>
       {/* </div> */}
