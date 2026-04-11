@@ -70,7 +70,7 @@ const Salgados = () => {
                       nome: item.nome,
                       quantidade: 1,
                       precoUnitario: item.preco10 / 10,
-                      total: item.preco10
+                      total: item.preco10 / 10
                     })}
                     className="bg-amber-500 text-white px-4 py-1 rounded hover:bg-amber-400"
                   >
