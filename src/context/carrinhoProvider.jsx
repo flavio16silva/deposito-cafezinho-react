@@ -17,7 +17,26 @@ export const CarrinhoProvider = ({ children }) => {
 
   // 6. Funções que qualquer componente pode usar
   const adicionar = (produto) => {
-    setItens([...itens, produto])
+    setItens(itensAtuais => {
+      // Procura se o item já está no carrinho
+      const itemExistente = itensAtuais.find(item => item.id === produto.id)
+
+      if (itemExistente) {
+        // Item já existe → aumenta a quantidade
+        return itensAtuais.map(item =>
+          item.id === produto.id
+            ? {
+              ...item,
+              quantidade: item.quantidade + produto.quantidade,
+              total: item.total + produto.total
+            }
+            : item
+        )
+      }
+
+      // Item não existe → adiciona novo
+      return [...itensAtuais, produto]
+    })
   }
 
   const remover = (id) => {
