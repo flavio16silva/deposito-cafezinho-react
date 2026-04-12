@@ -1,9 +1,10 @@
 import { useContext } from "react"
 import { CarrinhoContext } from "../context/carrinhoContext"
 
+
 const Carrinho = () => {
   // Pega os dados do contexto
-  const { itens, remover, aumentar, diminuir, total } = useContext(CarrinhoContext)
+  const { itens, setItens, remover, aumentar, diminuir, total } = useContext(CarrinhoContext)
 
   if (itens.length === 0) {
     return (
@@ -50,6 +51,13 @@ const Carrinho = () => {
         <span className="text-white text-lg">Total:</span>
         <span className="text-amber-400 font-bold">R$ {total.toFixed(2)}</span>
       </div>
+
+      <button
+        onClick={() => setItens([])}
+        className="ml-auto mt-3 bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700 transition-colors flex items-center justify-center gap-2 w-auto"
+      >
+        🗑️ Limpar Carrinho
+      </button>
       {/* </div> */}
     </div>
   )
