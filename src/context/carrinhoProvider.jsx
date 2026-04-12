@@ -73,6 +73,7 @@ export const CarrinhoProvider = ({ children }) => {
   return (
     <CarrinhoContext.Provider value={{
       itens,
+      setItens,
       adicionar,
       remover,
       aumentar,
