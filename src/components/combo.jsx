@@ -82,10 +82,10 @@ const Combos = () => {
 
                       </div>
                       {/* Preços - igual aos salgados */}
-                      <div className="space-y-0 md:space-y-1 py-0 md:py-1 mt-2">
-                        <div className="flex justify-center gap-4">
-                          <span className="text-gray-400 text-sm">10 unidades</span>
-                          <span className="text-amber-400 font-bold">R$ {item.preco10.toFixed(2)}</span>
+                      <div className="flex flex-col gap-3 mt-4">
+                        <div className="flex justify-between items-center gap-4 px-4 max-w-xs mx-auto w-full">
+                          <span className="text-gray-400 text-sm whitespace-nowrap">10 unidades</span>
+                          <span className="text-amber-400 font-bold whitespace-nowrap">R$ {item.preco10.toFixed(2)}</span>
                           <button
                             onClick={() => adicionar({
                               id: `${item.id}-10`,
@@ -95,13 +95,13 @@ const Combos = () => {
                               precoUnitario: item.preco10 / 10,
                               total: item.preco10
                             })}
-                            className="bg-amber-500 text-white px-3 py-1 rounded text-sm hover:bg-amber-400">
+                            className="bg-amber-500 text-white px-3 py-1 rounded text-sm hover:bg-amber-400 whitespace-nowrap">
                             +
                           </button>
                         </div>
-                        <div className="flex justify-center gap-4">
-                          <span className="text-gray-400 text-sm">20 unidades</span>
-                          <span className="text-amber-400 font-bold">R$ {item.preco20.toFixed(2)}</span>
+                        <div className="flex justify-between items-center gap-4 px-4 max-w-xs mx-auto w-full">
+                          <span className="text-gray-400 text-sm whitespace-nowrap">20 unidades</span>
+                          <span className="text-amber-400 font-bold whitespace-nowrap">R$ {item.preco20.toFixed(2)}</span>
                           <button
                             onClick={() => adicionar({
                               id: `${item.id}-20`,
@@ -111,13 +111,13 @@ const Combos = () => {
                               precoUnitario: item.preco20 / 20,
                               total: item.preco20
                             })}
-                            className="bg-amber-500 text-white px-3 py-1 rounded text-sm hover:bg-amber-400">
+                            className="bg-amber-500 text-white px-3 py-1 rounded text-sm hover:bg-amber-400 whitespace-nowrap">
                             +
                           </button>
                         </div>
-                        <div className="flex justify-center gap-4">
-                          <span className="text-gray-400 text-sm">30 unidades</span>
-                          <span className="text-amber-400 font-bold">R$ {item.preco30.toFixed(2)}</span>
+                        <div className="flex justify-between items-center gap-4 px-4 max-w-xs mx-auto w-full">
+                          <span className="text-gray-400 text-sm whitespace-nowrap">30 unidades</span>
+                          <span className="text-amber-400 font-bold whitespace-nowrap">R$ {item.preco30.toFixed(2)}</span>
                           <button
                             onClick={() => adicionar({
                               id: `${item.id}-30`,
@@ -127,7 +127,7 @@ const Combos = () => {
                               precoUnitario: item.preco30 / 30,
                               total: item.preco30
                             })}
-                            className="bg-amber-500 text-white px-3 py-1 rounded text-sm hover:bg-amber-400">
+                            className="bg-amber-500 text-white px-3 py-1 rounded text-sm hover:bg-amber-400 whitespace-nowrap">
                             +
                           </button>
                         </div>
