@@ -1,5 +1,7 @@
 import { combos } from '../data/combos'
 import { Carrinho } from "./carrinho"
+import { useContext } from "react"
+import { CarrinhoContext } from "../context/carrinhoContext"
 
 const imagens = {
   // Salgados
@@ -26,7 +28,9 @@ const Combos = () => {
       cerveja: partes[1]
     }
   }
-  // { console.log(separarNome(combos[0].nome)) }
+
+  const { adicionar } = useContext(CarrinhoContext)
+
   return (
     <div className="min-h-screen bg-gray-900">
       <div className="max-w-2xl md:max-w-4xl mx-auto pt-4">
@@ -82,14 +86,50 @@ const Combos = () => {
                         <div className="flex justify-center gap-4">
                           <span className="text-gray-400 text-sm">10 unidades</span>
                           <span className="text-amber-400 font-bold">R$ {item.preco10.toFixed(2)}</span>
+                          <button
+                            onClick={() => adicionar({
+                              id: `${item.id}-10`,
+                              nome: `${item.nome} (10 und)`,
+                              unidades: 10,
+                              quantidade: 1,
+                              precoUnitario: item.preco10 / 10,
+                              total: item.preco10
+                            })}
+                            className="bg-amber-500 text-white px-3 py-1 rounded text-sm hover:bg-amber-400">
+                            +
+                          </button>
                         </div>
                         <div className="flex justify-center gap-4">
                           <span className="text-gray-400 text-sm">20 unidades</span>
                           <span className="text-amber-400 font-bold">R$ {item.preco20.toFixed(2)}</span>
+                          <button
+                            onClick={() => adicionar({
+                              id: `${item.id}-20`,
+                              nome: `${item.nome} (20 und)`,
+                              unidades: 20,
+                              quantidade: 1,
+                              precoUnitario: item.preco20 / 20,
+                              total: item.preco20
+                            })}
+                            className="bg-amber-500 text-white px-3 py-1 rounded text-sm hover:bg-amber-400">
+                            +
+                          </button>
                         </div>
                         <div className="flex justify-center gap-4">
                           <span className="text-gray-400 text-sm">30 unidades</span>
                           <span className="text-amber-400 font-bold">R$ {item.preco30.toFixed(2)}</span>
+                          <button
+                            onClick={() => adicionar({
+                              id: `${item.id}-30`,
+                              nome: `${item.nome} (30 und)`,
+                              unidades: 30,
+                              quantidade: 1,
+                              precoUnitario: item.preco30 / 30,
+                              total: item.preco30
+                            })}
+                            className="bg-amber-500 text-white px-3 py-1 rounded text-sm hover:bg-amber-400">
+                            +
+                          </button>
                         </div>
                       </div>
 
@@ -100,10 +140,6 @@ const Combos = () => {
             })}
           </div>
         </div>
-        <div className="mt-8 px-4 flex justify-center">
-          <Carrinho />
-        </div>
-
       </div>
     </div >
   )
