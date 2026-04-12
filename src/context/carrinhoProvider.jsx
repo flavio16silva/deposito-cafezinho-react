@@ -46,7 +46,11 @@ export const CarrinhoProvider = ({ children }) => {
   const aumentar = (id) => {
     setItens(itens.map(item =>
       item.id === id
-        ? { ...item, quantidade: item.quantidade + 1, total: (item.quantidade + 1) * item.precoUnitario }
+        ? {
+          ...item,
+          quantidade: item.quantidade + 1,
+          total: item.total + (item.unidades * item.precoUnitario)
+        }
         : item
     ))
   }
@@ -54,7 +58,11 @@ export const CarrinhoProvider = ({ children }) => {
   const diminuir = (id) => {
     setItens(itens.map(item =>
       item.id === id && item.quantidade > 1
-        ? { ...item, quantidade: item.quantidade - 1, total: (item.quantidade - 1) * item.precoUnitario }
+        ? {
+          ...item,
+          quantidade: item.quantidade - 1,
+          total: item.total - (item.unidades * item.precoUnitario)
+        }
         : item
     ))
   }
