@@ -21,7 +21,7 @@ const Carrinho = () => {
         <div key={item.id} className="flex justify-between items-center border-b border-gray-700 py-2">
           <div className="flex-1">
             <p className="text-white text-lg">{item.nome}</p>
-            <p className="text-gray-400 text-xs">{item.quantidade} und</p>
+            {/* <p className="text-gray-400 text-xs">{item.unidades * item.quantidade} und</p> */}
           </div>
 
           <div className="flex items-center gap-6 w-36 justify-center">
