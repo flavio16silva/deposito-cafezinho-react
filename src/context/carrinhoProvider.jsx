@@ -15,7 +15,7 @@ export const CarrinhoProvider = ({ children }) => {
     localStorage.setItem("carrinho", JSON.stringify(itens))
   }, [itens])
 
-  // 6. Funções que qualquer componente pode usar
+  // 6. Funções de todos os componente
   const adicionar = (produto) => {
     setItens(itensAtuais => {
       // Procura se o item já está no carrinho
