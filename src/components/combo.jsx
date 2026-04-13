@@ -64,7 +64,7 @@ const Combos = () => {
                         {/* Imagens do Salgado */}
                         <div className="w-52 h-52 md:w-36 md:h-36">
                           <img
-                            className='w-full h-full object-cover rounded-xl'
+                            className="w-full h-full object-cover rounded-xl"
                             src={imagens[salgado]}
                             alt={salgado}
                           />
