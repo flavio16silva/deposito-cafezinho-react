@@ -78,6 +78,9 @@ const Navbar = () => {
               <Link to="/bebidas" className="text-white hover:text-amber-400 transition-colors">
                 Bebidas
               </Link>
+              <Link to="/meusPedidos" className="text-white hover:text-amber-400 transition-colors">
+                Meus Pedidos
+              </Link>
             </div>
 
           </div>
