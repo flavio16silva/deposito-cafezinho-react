@@ -15,46 +15,46 @@ const Carrinho = () => {
   }
 
   return (
-    <div className="bg-gray-800 rounded-lg p-4">
+    <div className="bg-gray-800 rounded-lg p-2 sm:p-4">
       {/* <h2 className="text-white font-bold mb-3">🛒 Carrinho</h2> */}
 
       {itens.map(item => (
-        <div key={item.id} className="flex justify-between items-center border-b border-gray-700 py-2">
-          <div className="flex-1">
-            <p className="text-white text-lg">{item.nome}</p>
+        <div key={item.id} className="flex justify-between items-center border-b border-gray-700 py-1 sm:py-2">
+          <div className="flex-1 min-w-0">
+            <p className="text-white text-sm sm:text-base wrap-break-words">{item.nome}</p>
             {/* <p className="text-gray-400 text-xs">{item.unidades * item.quantidade} und</p> */}
           </div>
 
-          <div className="flex items-center gap-6 w-36 justify-center">
+          <div className="flex items-center gap-1 sm:gap-4 w-auto justify-start sm:justify-center">
             <button
               onClick={() => diminuir(item.id)}
-              className="bg-amber-500 text-white font-bold w-28 h-6 rounded text-lg">
+              className="bg-amber-500 text-white font-bold w-8 h-6 rounded text-lg">
               -
             </button>
             <span className="text-white text-sm w-8 text-center">{item.quantidade}</span>
             <button
               onClick={() => aumentar(item.id)}
-              className="bg-amber-500 text-white w-28 h-6 rounded text-lg">
+              className="bg-amber-500 text-white w-8 h-6 rounded text-lg">
               +
             </button>
           </div>
 
-          <div className="text-right ml-12 w-28">
-            <p className="text-amber-400 font-bold">R$ {item.total.toFixed(2)}</p>
+          <div className="text-right ml-2 min-w-20 text-xs sm:text-sm">
+            <p className="text-amber-400 font-bold text-sm sm:text-base ">R$ {item.total.toFixed(2)}</p>
             <button onClick={() => remover(item.id)} className="text-red-400 text-xs">Remover</button>
           </div>
         </div>
       ))}
 
       {/* <div className="mt-3 pt-2 border-t border-gray-700"> */}
-      <div className="flex justify-between mt-2">
+      <div className="flex justify-between mt-2 text-xs sm:text-sm">
         <span className="text-white text-lg">Total:</span>
         <span className="text-amber-400 font-bold">R$ {total.toFixed(2)}</span>
       </div>
 
       <button
         onClick={() => setItens([])}
-        className="ml-auto mt-3 bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700 transition-colors flex items-center justify-center gap-2 w-auto"
+        className="ml-auto mt-3 bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700 transition-colors flex items-center justify-center gap-2 w-auto text-xs sm:text-sm"
       >
         🗑️ Limpar Carrinho
       </button>
