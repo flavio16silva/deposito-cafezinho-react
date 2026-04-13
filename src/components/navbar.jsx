@@ -13,7 +13,8 @@ const Navbar = () => {
   const navItems = [
     { path: "/salgados", label: "Salgados" },
     { path: "/combos", label: "Combos" },
-    { path: "/bebidas", label: "Bebidas" }
+    { path: "/bebidas", label: "Bebidas" },
+    { path: "/meusPedidos", label: "Meus Pedidos" }
   ]
 
   const { itens } = useContext(CarrinhoContext)
