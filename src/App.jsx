@@ -11,6 +11,7 @@ import { Salgados } from './components/salgados'
 import { Combos } from './components/combo'
 import { Bebidas } from './components/bebidas'
 import { Footer } from './components/footer'
+import { MeusPedidos } from './components/meusPedidos'
 
 const Layout = () => {
   return (
@@ -46,6 +47,7 @@ const App = () => {
         <Route path="/salgados" element={<Salgados />} />
         <Route path="/combos" element={<Combos />} />
         <Route path="/bebidas" element={<Bebidas />} />
+        <Route path="/meusPedidos" element={<MeusPedidos />} />
       </Route>
     )
   )
