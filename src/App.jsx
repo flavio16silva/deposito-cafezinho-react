@@ -10,20 +10,24 @@ import { Navbar } from './components/navbar'
 import { Salgados } from './components/salgados'
 import { Combos } from './components/combo'
 import { Bebidas } from './components/bebidas'
+import { Footer } from './components/footer'
 
 const Layout = () => {
   return (
-    <>
+    <div className='flex flex-col bg-gray-900'>
       <Navbar />
-      <Outlet />
-    </>
+      <main className='flex-1'>
+        <Outlet />
+      </main>
+      <Footer />
+    </div>
   )
 }
 
 // Componente para a página inicial
 const Home = () => {
   return (
-    <div className='min-h-screen bg-gray-50 p-8'>
+    <div className='bg-gray-50 p-8'>
       <div className='max-w-7xl mx-auto'>
         <h1 className='text-2xl font-bold text-gray-800'>
           Bem-vindo!
