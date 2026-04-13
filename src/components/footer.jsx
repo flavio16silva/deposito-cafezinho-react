@@ -1,4 +1,4 @@
-import { FaMapMarkerAlt, FaWhatsapp, FaClock } from 'react-icons/fa'
+import { FaMapMarkerAlt, FaWhatsapp, FaClock, FaLinkedin } from 'react-icons/fa'
 
 const Footer = () => {
   return (
@@ -13,33 +13,41 @@ const Footer = () => {
 
       <div className="max-w-7xl mx-auto px-4 pb-6">
         {/* Slogan centralizado */}
-        <p className="text-gray-400 text-sm text-center">
-          O melhor salgado da cidade.
+        <p className="text-gray-400 text-lg text-center font-bold">
+          O melhor salgado da cidade. Faça já o seu pedido.
         </p>
 
         {/* Endereço */}
         <div className="flex flex-col md:flex-row justify-around items-center gap-4 mt-6">
           <div className="flex items-center gap-2">
             <FaMapMarkerAlt className="text-white text-sm" />
-            <p className="text-gray-400 text-sm">Eng. Velho da Federação</p>
+            <p className="text-gray-400 text-sm font-bold">Eng. Velho da Federação</p>
           </div>
 
           {/* Horário de funcionamento */}
           <div className="flex items-center gap-2">
             <FaClock className="text-white text-sm" />
-            <p className="text-gray-400 text-sm"> Horário de funcionamento: 8h às 18h</p>
+            <p className="text-gray-400 text-sm font-bold"> Horário de funcionamento: 8h às 18h</p>
           </div>
 
           {/* Telefone */}
           <div className="flex items-center gap-2">
             <FaWhatsapp className="text-white text-sm" />
-            <p className="text-gray-400 text-sm">(71) 99346-2490</p>
+            <p className="text-gray-400 text-sm font-bold">(71) 99346-2490</p>
           </div>
         </div>
 
         {/* Direitos autorais centralizado */}
         <p className="text-gray-500 text-xs text-center mt-6 pt-3 ">
           2026. Todos os direitos reservados. Criado por Flávio Silva
+          <a
+            href="https://www.linkedin.com/in/flavio-leite-silva/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block ml-1 text-blue-400 hover:text-blue-300 transition-colors"
+          >
+            <FaLinkedin className="inline-block text-sm" />
+          </a>
         </p>
 
       </div>
