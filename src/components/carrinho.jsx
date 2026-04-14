@@ -1,10 +1,26 @@
-import { useContext } from "react"
+import { useContext, useState, useEffect } from "react"
 import { CarrinhoContext } from "../context/carrinhoContext"
 
 
 const Carrinho = () => {
   // Pega os dados do contexto
   const { itens, setItens, remover, aumentar, diminuir, total } = useContext(CarrinhoContext)
+
+  const [pedidoEnviado, setPedidoEnviado] = useState(false)
+
+  useEffect(() => {
+    if (!pedidoEnviado) return
+
+    const handleFocus = () => {
+      setItens([])
+      setPedidoEnviado(false)
+      alert("🛒 Carrinho limpo! Seu pedido foi registrado.")
+    }
+
+    window.addEventListener('focus', handleFocus)
+
+    return () => window.removeEventListener('focus', handleFocus)
+  }, [pedidoEnviado, setItens])
 
   if (itens.length === 0) {
     return (
@@ -17,7 +33,7 @@ const Carrinho = () => {
   // Finalizar o pedido
   const finalizarPedido = () => {
     if (itens.length === 0) {
-      alert("Carrinho vazio! Adicione itens antes de finalizar.")
+      alert("⚠️ Carrinho vazio! Adicione itens antes de finalizar.")
       return
     }
 
@@ -39,11 +55,36 @@ const Carrinho = () => {
     // Salva no localStorage
     localStorage.setItem("pedidos", JSON.stringify(pedidosSalvos))
 
-    // Limpa o carrinho
-    setItens([])
+    //ENVIA A MENSAGEM VIA WHATSAPP
+    const numeroWhatsApp = "5571988232921"
 
-    // Mensagem de sucesso
-    alert("Pedido finalizado com sucesso!")
+    let mensagem = " *NOVO PEDIDO - DEPÓSITO CAFEZINHO* \n\n"
+    mensagem += "📅 *Data do Pedido:* " + new Date().toLocaleString() + "\n\n"
+    mensagem += "*🛒 ITENS DO PEDIDO:*\n"
+    mensagem += "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n"
+
+    itens.forEach((item, index) => {
+      mensagem += `${index + 1}. ${item.nome}\n`
+      mensagem += `   📦 Quantidade: ${item.quantidade} und\n`
+      mensagem += `   💰 Subtotal: R$ ${item.total.toFixed(2)}\n\n`
+    })
+
+    mensagem += "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n"
+    mensagem += `💰 *TOTAL DO PEDIDO:* R$ ${total.toFixed(2)}\n\n`
+    mensagem += "✨ Agradecemos pela preferência! ✨"
+
+
+    // Codifica a mensagem e monta a URL do WhatsApp
+    const mensagemCodificada = encodeURIComponent(mensagem)
+    const urlWhatsApp = `https://api.whatsapp.com/send/?phone=${numeroWhatsApp}&text=${mensagemCodificada}&type=phone_number&app_absent=0`
+
+    alert("✅ Pedido preparado! O WhatsApp vai abrir para você confirmar o envio.")
+
+    window.open(urlWhatsApp, '_blank')
+    //window.location.href = urlWhatsApp
+
+    setPedidoEnviado(true)
+
   }
 
   return (
@@ -99,6 +140,8 @@ const Carrinho = () => {
 
     </div>
   )
+
 }
+
 
 export { Carrinho }
