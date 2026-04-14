@@ -48,7 +48,6 @@ const Carrinho = () => {
 
   return (
     <div className="bg-gray-800 rounded-lg p-2 sm:p-4">
-      {/* <h2 className="text-white font-bold mb-3">🛒 Carrinho</h2> */}
 
       {itens.map(item => (
         <div key={item.id} className="flex justify-between items-center border-b border-gray-700 py-1 sm:py-2">
