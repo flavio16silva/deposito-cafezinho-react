@@ -19,6 +19,9 @@ const Navbar = () => {
 
   const { itens } = useContext(CarrinhoContext)
 
+  const linkClass = ({ isActive }) =>
+    isActive ? "text-amber-400" : "text-white hover:text-amber-400 transition-colors"
+
   return (
     <>
       <nav className="bg-gray-800 border-b border-gray-700 shadow-sm sticky top-0 z-10">
@@ -70,39 +73,26 @@ const Navbar = () => {
             {/* LINKS DESKTOP  */}
             <div className="hidden md:flex justify-center gap-6 mt-2">
 
-              <NavLink
-                to="/salgados"
-                className={({ isActive }) =>
-                  isActive ? "text-amber-400" : "text-white hover:text-amber-400 transition-colors"
-                }
-              >
+              <NavLink to="/salgados"
+                className={linkClass}>
                 Salgados
               </NavLink>
 
               <NavLink
                 to="/combos"
-                className={({ isActive }) =>
-                  isActive ? "text-amber-400" : "text-white hover:text-amber-400 transition-colors"
-                }
-              >
+                className={linkClass}>
                 Combos
               </NavLink>
 
               <NavLink
                 to="/bebidas"
-                className={({ isActive }) =>
-                  isActive ? "text-amber-400" : "text-white hover:text-amber-400 transition-colors"
-                }
-              >
+                className={linkClass}>
                 Bebidas
               </NavLink>
 
               <NavLink
                 to="/meusPedidos"
-                className={({ isActive }) =>
-                  isActive ? "text-amber-400" : "text-white hover:text-amber-400 transition-colors"
-                }
-              >
+                className={linkClass}>
                 Meus Pedidos
               </NavLink>
 
