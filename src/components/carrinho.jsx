@@ -14,6 +14,38 @@ const Carrinho = () => {
     )
   }
 
+  // Finalizar o pedido
+  const finalizarPedido = () => {
+    if (itens.length === 0) {
+      alert("Carrinho vazio! Adicione itens antes de finalizar.")
+      return
+    }
+
+    // Pega a lista de pedidos já salvos
+    const pedidosSalvos = JSON.parse(localStorage.getItem("pedidos") || "[]")
+
+    // Cria um novo pedido com data atual
+    const novoPedido = {
+      id: Date.now(),  //data em milissegundos
+      data: new Date().toISOString(),
+      itens: [...itens],
+      total: total,
+      status: "Entregue"
+    }
+
+    // Adiciona o novo pedido à lista
+    pedidosSalvos.push(novoPedido)
+
+    // Salva no localStorage
+    localStorage.setItem("pedidos", JSON.stringify(pedidosSalvos))
+
+    // Limpa o carrinho
+    setItens([])
+
+    // Mensagem de sucesso
+    alert("Pedido finalizado com sucesso!")
+  }
+
   return (
     <div className="bg-gray-800 rounded-lg p-2 sm:p-4">
       {/* <h2 className="text-white font-bold mb-3">🛒 Carrinho</h2> */}
@@ -46,7 +78,7 @@ const Carrinho = () => {
         </div>
       ))}
 
-      {/* <div className="mt-3 pt-2 border-t border-gray-700"> */}
+
       <div className="flex justify-between mt-2 text-xs sm:text-sm">
         <span className="text-white text-lg">Total:</span>
         <span className="text-amber-400 font-bold">R$ {total.toFixed(2)}</span>
@@ -58,7 +90,14 @@ const Carrinho = () => {
       >
         🗑️ Limpar Carrinho
       </button>
-      {/* </div> */}
+
+      <button
+        onClick={finalizarPedido}
+        className="ml-auto mt-3 bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition-colors font-bold flex items-center justify-center gap-2 w-auto text-xs sm:text-sm"
+      >
+        ✅ Finalizar Pedido
+      </button>
+
     </div>
   )
 }
