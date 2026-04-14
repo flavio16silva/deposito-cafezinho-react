@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, NavLink } from "react-router-dom"
 import { CiBeerMugFull } from "react-icons/ci"
 import { HiMenu, HiX } from "react-icons/hi"
 import { useContext } from "react"
@@ -69,18 +69,43 @@ const Navbar = () => {
 
             {/* LINKS DESKTOP  */}
             <div className="hidden md:flex justify-center gap-6 mt-2">
-              <Link to="/salgados" className="text-white hover:text-amber-400 transition-colors">
+
+              <NavLink
+                to="/salgados"
+                className={({ isActive }) =>
+                  isActive ? "text-amber-400" : "text-white hover:text-amber-400 transition-colors"
+                }
+              >
                 Salgados
-              </Link>
-              <Link to="/combos" className="text-white hover:text-amber-400 transition-colors">
+              </NavLink>
+
+              <NavLink
+                to="/combos"
+                className={({ isActive }) =>
+                  isActive ? "text-amber-400" : "text-white hover:text-amber-400 transition-colors"
+                }
+              >
                 Combos
-              </Link>
-              <Link to="/bebidas" className="text-white hover:text-amber-400 transition-colors">
+              </NavLink>
+
+              <NavLink
+                to="/bebidas"
+                className={({ isActive }) =>
+                  isActive ? "text-amber-400" : "text-white hover:text-amber-400 transition-colors"
+                }
+              >
                 Bebidas
-              </Link>
-              <Link to="/meusPedidos" className="text-white hover:text-amber-400 transition-colors">
+              </NavLink>
+
+              <NavLink
+                to="/meusPedidos"
+                className={({ isActive }) =>
+                  isActive ? "text-amber-400" : "text-white hover:text-amber-400 transition-colors"
+                }
+              >
                 Meus Pedidos
-              </Link>
+              </NavLink>
+
             </div>
 
           </div>
