@@ -56,7 +56,7 @@ const Carrinho = () => {
     localStorage.setItem("pedidos", JSON.stringify(pedidosSalvos))
 
     //ENVIA A MENSAGEM VIA WHATSAPP
-    const numeroWhatsApp = "5571988232921"
+    const numeroWhatsApp = "5571993462490"
 
     let mensagem = " *NOVO PEDIDO - DEPÓSITO CAFEZINHO* \n\n"
     mensagem += "📅 *Data do Pedido:* " + new Date().toLocaleString() + "\n\n"
