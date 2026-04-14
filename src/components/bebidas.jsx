@@ -68,6 +68,7 @@ const Bebidas = () => {
                     onClick={() => adicionar({
                       id: item.id,
                       nome: item.nome,
+                      unidades: 1,
                       quantidade: 1,
                       precoUnitario: item.preco,
                       total: item.preco
