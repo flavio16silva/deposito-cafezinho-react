@@ -1,6 +1,11 @@
+import { Link } from "react-router-dom"
+import { useState } from "react"
+
 const MeusPedidos = () => {
-  // Busca os pedidos salvos no localStorage
-  const pedidos = JSON.parse(localStorage.getItem("pedidos") || "[]")
+  // Busca os pedidos salvos
+  const [pedidos, setPedidos] = useState(() => {
+    return JSON.parse(localStorage.getItem("pedidos") || "[]")
+  })
 
   // Função para formatar a data
   const formatarData = (dataISO) => {
@@ -14,26 +19,67 @@ const MeusPedidos = () => {
     })
   }
 
+  // Função para excluir um pedido específico
+  const excluirPedido = (id) => {
+    const novosPedidos = pedidos.filter(pedido => pedido.id !== id)
+    setPedidos(novosPedidos)
+    localStorage.setItem("pedidos", JSON.stringify(novosPedidos))
+  }
+
+  // Função para excluir todos os pedidos
+  const excluirTodosPedidos = () => {
+    if (window.confirm("Tem certeza que deseja excluir TODOS os pedidos?")) {
+      setPedidos([])
+      localStorage.setItem("pedidos", JSON.stringify([]))
+    }
+  }
+
   return (
     <div className="min-h-screen bg-gray-900 pt-4">
       <div className="max-w-4xl mx-auto px-4 pb-8">
 
         {/* Título da página */}
-        <h1 className="text-2xl font-bold text-white text-center mb-6">
-          Meus Pedidos
-        </h1>
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-2xl font-bold text-white">
+            Meus Pedidos
+          </h1>
+
+          {/* Botão excluir todos */}
+          {pedidos.length > 0 && (
+            <button
+              onClick={excluirTodosPedidos}
+              className="bg-red-600 text-white px-3 py-1 rounded-lg text-sm hover:bg-red-700 transition-colors flex items-center gap-1"
+            >
+              🗑️ Excluir Todos
+            </button>
+          )}
+        </div>
+
+        {/* Botão para voltar ao cardápio */}
+        <div className="mb-6">
+          <Link
+            to="/salgados"
+            className="inline-block bg-amber-500 text-white px-4 py-2 rounded-lg hover:bg-amber-600 transition-colors"
+          >
+            ← Voltar ao Cardápio
+          </Link>
+        </div>
 
         {/* Verifica se tem pedidos */}
         {pedidos.length === 0 ? (
-          // Mensagem quando não há pedidos
           <div className="bg-gray-800 rounded-lg p-8 text-center">
             <p className="text-gray-400 text-lg">Nenhum pedido encontrado</p>
             <p className="text-gray-500 text-sm mt-2">
               Faça seu primeiro pedido no cardápio!
             </p>
+            <Link
+              to="/salgados"
+              className="inline-block mt-4 bg-amber-500 text-white px-4 py-2 rounded-lg hover:bg-amber-600 transition-colors"
+            >
+              Fazer Pedido
+            </Link>
           </div>
         ) : (
-          // Lista de pedidos
           <div className="space-y-4">
             {pedidos.map((pedido) => (
               <div key={pedido.id} className="bg-gray-800 rounded-lg p-4">
@@ -48,10 +94,18 @@ const MeusPedidos = () => {
                       {formatarData(pedido.data)}
                     </p>
                   </div>
-                  <div className="text-right">
+                  <div className="flex items-center gap-3">
                     <span className="text-green-400 text-sm font-bold">
                       {pedido.status || "Entregue"}
                     </span>
+                    {/* Botão excluir este pedido */}
+                    <button
+                      onClick={() => excluirPedido(pedido.id)}
+                      className="text-red-400 text-xs hover:text-red-300 transition-colors"
+                      title="Excluir pedido"
+                    >
+                      🗑️
+                    </button>
                   </div>
                 </div>
 
@@ -79,7 +133,6 @@ const MeusPedidos = () => {
                     R$ {pedido.total.toFixed(2)}
                   </span>
                 </div>
-
               </div>
             ))}
           </div>
