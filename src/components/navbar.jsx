@@ -48,7 +48,7 @@ const Navbar = () => {
                     Depósito Cafezinho
                   </h1>
                   <p className="font-sans text-xs md:text-sm text-gray-300">
-                    desde 2010
+                    desde 2024
                   </p>
                 </div>
               </div>
