@@ -2,6 +2,7 @@ import { useState } from "react"
 import { Link, NavLink } from "react-router-dom"
 import { CiBeerMugFull } from "react-icons/ci"
 import { HiMenu, HiX } from "react-icons/hi"
+import { BiUser } from "react-icons/bi"
 import { useContext } from "react"
 import { Carrinho } from "./carrinho"
 import { CarrinhoContext } from "../context/carrinhoContext"
@@ -9,6 +10,7 @@ import { CarrinhoContext } from "../context/carrinhoContext"
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isCarrinhoOpen, setIsCarrinhoOpen] = useState(false)
+  const [isPerfilOpen, setIsPerfilOpen] = useState(false)
 
   const usuario = JSON.parse(localStorage.getItem('usuario') || '{}')
 
@@ -63,19 +65,61 @@ const Navbar = () => {
                 </div>
               </div>
 
-              {/* DIREITA: Carrinho (ícone) */}
-              <div className=" relative w-10 h-10 flex items-center justify-center">
-                <button
-                  onClick={() => setIsCarrinhoOpen(true)}
-                  className="text-white text-4xl hover:text-amber-400 transition-colors">
-                  🛒
-                </button>
-                {/* Contador: Carrinho */}
-                {itens.length > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-amber-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                    {itens.length}
-                  </span>
+              {/* DIREITA: Ícone Perfil + Carrinho */}
+              <div className="flex items-center gap-4">
+
+                {/* Ícone do Perfil (só aparece se usuário estiver logado) */}
+                {usuario?.nome && (
+                  <div className="relative">
+                    <button
+                      onClick={() => setIsPerfilOpen(!isPerfilOpen)}
+                      className=" flex items-center text-white text-3xl hover:text-amber-400 transition-colors"
+                    >
+                      <BiUser />
+                    </button>
+
+                    {/* Dropdown do Perfil */}
+                    {isPerfilOpen && (
+                      <>
+                        {/* Fundo escuro para fechar ao clicar fora */}
+                        <div
+                          className="fixed inset-0 z-40"
+                          onClick={() => setIsPerfilOpen(false)}
+                        />
+
+                        {/* Menu do perfil */}
+                        <div className="absolute right-0 mt-2 w-64 bg-gray-800 rounded-lg shadow-xl z-50 border border-gray-700">
+                          <div className="p-4 border-b border-gray-700">
+                            <p className="text-white font-bold">{usuario?.nome}</p>
+                            <p className="text-gray-400 text-sm">{usuario?.telefone}</p>
+                          </div>
+                          <button
+                            onClick={handleLogout}
+                            className="w-full text-left px-4 py-3 text-red-400 hover:bg-gray-700 rounded-b-lg transition-colors"
+                          >
+                            Sair
+                          </button>
+                        </div>
+                      </>
+                    )}
+                  </div>
                 )}
+
+                {/* Carrinho */}
+                <div className="relative">
+                  <button
+                    onClick={() => setIsCarrinhoOpen(true)}
+                    className="text-white text-3xl hover:text-amber-400 transition-colors"
+                  >
+                    🛒
+                  </button>
+                  {itens.length > 0 && (
+                    <span className="absolute -top-1 -right-1 bg-amber-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                      {itens.length}
+                    </span>
+                  )}
+                </div>
+
               </div>
 
             </div>
