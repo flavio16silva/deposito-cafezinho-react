@@ -1,11 +1,15 @@
 // Importa os hooks necessários
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { useContext } from 'react'
+import { CarrinhoContext } from '../context/carrinhoContext'
 
 const Login = () => {
   // Estados para armazenar os dados do formulário
   const [celular, setCelular] = useState('')
   const [senha, setSenha] = useState('')
+
+  const { adicionar } = useContext(CarrinhoContext)
 
   // Estados para controlar o foco dos campos (placeholder sobe)
   const [focoCelular, setFocoCelular] = useState(false)
@@ -42,7 +46,6 @@ const Login = () => {
 
     // Busca usuário salvo no localStorage
     const usuarioSalvo = localStorage.getItem('usuario')
-
     if (!usuarioSalvo) {
       alert('Usuário não encontrado! Faça seu cadastro primeiro.')
       return
@@ -52,9 +55,27 @@ const Login = () => {
 
     // Verifica se o celular e senha correspondem
     if (usuario.telefone === celular && usuario.senha === senha) {
-      // Marca como logado
-      localStorage.setItem('logado', 'true')
+      localStorage.setItem('logado', 'true') // Marca como logado
       alert(`✅ Bem-vindo(a) de volta, ${usuario.nome}!`)
+
+      // Verifica se tinha carrinho pendente antes do login
+      const carrinhoPendente = localStorage.getItem('carrinhoPendente')
+
+      if (carrinhoPendente) {
+        // Recupera os itens do carrinho pendente
+        const itensPendentes = JSON.parse(carrinhoPendente)
+
+        // Adiciona cada item ao carrinho atual
+        itensPendentes.forEach(item => {
+          adicionar(item)
+        })
+
+        // Remove o carrinho pendente (já foi recuperado)
+        localStorage.removeItem('carrinhoPendente')
+
+        alert('🛒 Seu carrinho foi restaurado! Continue seu pedido.')
+      }
+
       navigate('/salgados')
     } else {
       alert('❌ Celular ou senha incorretos!')
@@ -144,6 +165,16 @@ const Login = () => {
                 Faça cadastro
               </Link>
             </p>
+          </div>
+
+          {/* Link para ver cardápio sem login */}
+          <div className="text-center mt-2">
+            <Link
+              to="/salgados"
+              className="text-gray-400 hover:text-amber-400 transition-colors text-sm font-bold"
+            >
+              Ver cardápio
+            </Link>
           </div>
 
         </div>
