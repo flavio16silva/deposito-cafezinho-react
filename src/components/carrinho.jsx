@@ -37,6 +37,18 @@ const Carrinho = () => {
       return
     }
 
+    // Verifica se o usuário está logado
+    const logado = localStorage.getItem('logado') === 'true'
+
+    if (!logado) {
+      // Salva o carrinho atual para não perder
+      localStorage.setItem('carrinhoPendente', JSON.stringify(itens))
+
+      alert('🔒 Faça login para finalizar seu pedido!')
+      window.location.href = '/login'
+      return
+    }
+
     // Pega a lista de pedidos já salvos
     const pedidosSalvos = JSON.parse(localStorage.getItem("pedidos") || "[]")
 
@@ -58,7 +70,13 @@ const Carrinho = () => {
     //ENVIA A MENSAGEM VIA WHATSAPP
     const numeroWhatsApp = "5571993462490"
 
+    const usuario = JSON.parse(localStorage.getItem('usuario') || '{}')
+
     let mensagem = " *NOVO PEDIDO - DEPÓSITO CAFEZINHO* \n\n"
+
+    mensagem += `*Cliente:* ${usuario.nome || 'Cliente não identificado'}\n`
+    mensagem += `*Telefone* ${usuario.telefone || 'Não informado'} \n\n`
+
     mensagem += "📅 *Data do Pedido:* " + new Date().toLocaleString() + "\n\n"
     mensagem += "*🛒 ITENS DO PEDIDO:*\n"
     mensagem += "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n"
