@@ -6,6 +6,7 @@ import {
   Outlet
 } from 'react-router-dom'
 
+import { Login } from './components/login'
 import { Navbar } from './components/navbar'
 import { Salgados } from './components/salgados'
 import { Combos } from './components/combo'
@@ -22,6 +23,14 @@ const Layout = () => {
         <Outlet />
       </main>
       <Footer />
+    </div>
+  )
+}
+
+const LayoutSimples = () => {
+  return (
+    <div className='min-h-screen bg-gray-900'>
+      <Outlet />
     </div>
   )
 }
@@ -43,14 +52,21 @@ const Home = () => {
 const App = () => {
   const router = createBrowserRouter(
     createRoutesFromElements(
-      <Route path="/" element={< Layout />}>
-        <Route index element={<Home />} />
-        <Route path="/salgados" element={<Salgados />} />
-        <Route path="/combos" element={<Combos />} />
-        <Route path="/bebidas" element={<Bebidas />} />
-        <Route path="/meusPedidos" element={<MeusPedidos />} />
-        <Route path="/cadastro" element={<Cadastro />} />
-      </Route>
+      <>
+        <Route path="/" element={<LayoutSimples />}>
+          <Route index element={<Login />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/cadastro" element={<Cadastro />} />
+        </Route>
+
+        <Route path="/" element={< Layout />}>
+          <Route path="/salgados" element={<Salgados />} />
+          <Route path="/combos" element={<Combos />} />
+          <Route path="/bebidas" element={<Bebidas />} />
+          <Route path="/meusPedidos" element={<MeusPedidos />} />
+        </Route>
+
+      </>
     )
   )
 
