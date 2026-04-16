@@ -1,0 +1,156 @@
+// Importa os hooks necessários
+import { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+
+const Login = () => {
+  // Estados para armazenar os dados do formulário
+  const [celular, setCelular] = useState('')
+  const [senha, setSenha] = useState('')
+
+  // Estados para controlar o foco dos campos (placeholder sobe)
+  const [focoCelular, setFocoCelular] = useState(false)
+  const [focoSenha, setFocoSenha] = useState(false)
+
+  // Hook para navegação (redirecionar após login)
+  const navigate = useNavigate()
+
+  // Função para aplicar máscara de celular
+  const mascaraCelular = (valor) => {
+    const numeros = valor.replace(/\D/g, '')
+
+    let celularFormatado = ''
+    if (numeros.length <= 2) {
+      celularFormatado = numeros
+    } else if (numeros.length <= 3) {
+      celularFormatado = `(${numeros.slice(0, 2)}) ${numeros.slice(2)}`
+    } else if (numeros.length <= 7) {
+      celularFormatado = `(${numeros.slice(0, 2)}) ${numeros.slice(2, 3)} ${numeros.slice(3)}`
+    } else {
+      celularFormatado = `(${numeros.slice(0, 2)}) ${numeros.slice(2, 3)} ${numeros.slice(3, 7)}-${numeros.slice(7, 11)}`
+    }
+
+    return celularFormatado
+  }
+
+  // Função para processar o login
+  const handleLogin = () => {
+    // Verifica se os campos estão preenchidos
+    if (!celular || !senha) {
+      alert('Preencha todos os campos')
+      return
+    }
+
+    // Busca usuário salvo no localStorage
+    const usuarioSalvo = localStorage.getItem('usuario')
+
+    if (!usuarioSalvo) {
+      alert('Usuário não encontrado! Faça seu cadastro primeiro.')
+      return
+    }
+
+    const usuario = JSON.parse(usuarioSalvo)
+
+    // Verifica se o celular e senha correspondem
+    if (usuario.telefone === celular && usuario.senha === senha) {
+      // Marca como logado
+      localStorage.setItem('logado', 'true')
+      alert(`✅ Bem-vindo(a) de volta, ${usuario.nome}!`)
+      navigate('/salgados')
+    } else {
+      alert('❌ Celular ou senha incorretos!')
+    }
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-900 flex items-center justify-center px-4">
+      <div className="w-full max-w-md">
+
+        {/* Logo/Título */}
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-bold text-white">🍻 Depósito</h1>
+          <h2 className="text-2xl font-bold text-amber-400">Cafezinho</h2>
+          <p className="text-gray-400 text-sm mt-2">Faça login para continuar</p>
+        </div>
+
+        {/* Formulário */}
+        <div className="space-y-6">
+
+          {/* Campo Celular */}
+          <div className="relative">
+            <label
+              htmlFor="celular"
+              className={`absolute left-3 transition-all duration-200 pointer-events-none
+                ${focoCelular || celular
+                  ? 'text-xs -top-2 text-amber-400 bg-gray-900 px-1'
+                  : 'text-base top-3 text-gray-400'
+                }`}
+            >
+              Celular
+            </label>
+            <input
+              id="celular"
+              type="tel"
+              value={celular}
+              onChange={(e) => setCelular(mascaraCelular(e.target.value))}
+              onFocus={() => setFocoCelular(true)}
+              onBlur={() => setFocoCelular(false)}
+              className="w-full bg-transparent border border-gray-600 rounded-lg py-3 px-3 text-white focus:outline-none focus:border-amber-400 transition-colors"
+              placeholder=" "
+            />
+          </div>
+
+          {/* Campo Senha */}
+          <div className="relative">
+            <label
+              htmlFor="senha"
+              className={`absolute left-3 transition-all duration-200 pointer-events-none
+                ${focoSenha || senha
+                  ? 'text-xs -top-2 text-amber-400 bg-gray-900 px-1'
+                  : 'text-base top-3 text-gray-400'
+                }`}
+            >
+              Senha
+            </label>
+            <input
+              id="senha"
+              type="password"
+              value={senha}
+              onChange={(e) => setSenha(e.target.value)}
+              onFocus={() => setFocoSenha(true)}
+              onBlur={() => setFocoSenha(false)}
+              className="w-full bg-transparent border border-gray-600 rounded-lg py-3 px-3 text-white focus:outline-none focus:border-amber-400 transition-colors"
+              placeholder=" "
+            />
+          </div>
+
+          {/* Botão Entrar */}
+          <button
+            onClick={handleLogin}
+            disabled={!celular || !senha}
+            className={`w-full py-3 rounded-lg font-bold transition-colors
+              ${!celular || !senha
+                ? 'bg-gray-600 cursor-not-allowed'
+                : 'bg-amber-500 hover:bg-amber-600'
+              } text-white`}
+          >
+            Entrar
+          </button>
+
+          {/* Link para cadastro */}
+          <div className="text-center mt-4">
+            <p className="text-gray-400 text-sm">
+              Não tem conta?{' '}
+              <Link to="/cadastro" className="text-amber-400 hover:text-amber-300 font-semibold">
+                Faça cadastro
+              </Link>
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  )
+}
+
+export { Login }
