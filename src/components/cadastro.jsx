@@ -5,11 +5,13 @@ const Cadastro = () => {
   const [nome, setNome] = useState('')
   const [telefone, setTelefone] = useState('')
   const [email, setEmail] = useState('')
+  const [senha, setSenha] = useState('')
 
   // Estado para controlar o campo em foco (placeholder)
   const [focoNome, setFocoNome] = useState(false)
   const [focoTelefone, setFocoTelefone] = useState(false)
   const [focoEmail, setFocoEmail] = useState(false)
+  const [focoSenha, setFocoSenha] = useState(false)
 
   // Função para validar formato do email
   const validarEmail = (email) => {
@@ -21,7 +23,7 @@ const Cadastro = () => {
   // Função para processar o cadastro
   const handleCadastro = () => {
     // Verifica se todos os campos estão preenchidos
-    if (!nome || !telefone || !email) {
+    if (!nome || !telefone || !email || !senha) {
       alert('Por favor, preencha todos os campos')
       return
     }
@@ -32,11 +34,18 @@ const Cadastro = () => {
       return
     }
 
+    // Verifica se a senha tem no mínimo 6 caracteres
+    if (senha.length < 6) {
+      alert('A senha deve ter no mínimo 6 caracteres')
+      return
+    }
+
     // Simula o cadastro (salva no localStorage)
     const usuario = {
       nome: nome,
       telefone: telefone,
       email: email,
+      senha: senha,
       dataCadastro: new Date().toISOString()
     }
 
@@ -171,12 +180,45 @@ const Cadastro = () => {
               </p>
             )}
           </div>
+          {/* Campo Senha */}
+          <div className="relative">
+            {/* Label (título do campo) */}
+            <label
+              htmlFor="senha"
+              className={`absolute left-3 transition-all duration-200 pointer-events-none
+                ${focoSenha || senha
+                  ? 'text-xs -top-2 text-amber-400 bg-gray-900 px-1'
+                  : 'text-base top-3 text-gray-400'
+                }`}
+            >
+              Senha
+            </label>
+
+            {/* Input do tipo password (esconde os caracteres) */}
+            <input
+              id="senha"
+              type="password"
+              value={senha}
+              onChange={(e) => setSenha(e.target.value)}
+              onFocus={() => setFocoSenha(true)}
+              onBlur={() => setFocoSenha(false)}
+              className="w-full bg-transparent border border-gray-600 rounded-lg py-3 px-3 text-white focus:outline-none focus:border-amber-400 transition-colors"
+              placeholder=" "
+            />
+
+            {/* Dica de segurança (opcional) */}
+            {senha && senha.length < 6 && (
+              <p className="text-red-500 text-xs mt-1 ml-1">
+                A senha deve ter no mínimo 6 caracteres
+              </p>
+            )}
+          </div>
           {/* Botão Cadastrar */}
           <button
             onClick={handleCadastro}
-            disabled={!nome || !telefone || !email || !validarEmail(email)}
+            disabled={!nome || !telefone || !email || !senha || senha.length < 6 || !validarEmail(email)}
             className={`w-full py-3 rounded-lg font-bold transition-colors
-                ${!nome || !telefone || !email || !validarEmail(email)
+                ${!nome || !telefone || !email || !senha || senha.length < 6 || !validarEmail(email)
                 ? 'bg-gray-600 cursor-not-allowed'
                 : 'bg-amber-500 hover:bg-amber-600'
               } text-white`}
