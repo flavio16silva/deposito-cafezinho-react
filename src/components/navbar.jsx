@@ -10,6 +10,8 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isCarrinhoOpen, setIsCarrinhoOpen] = useState(false)
 
+  const usuario = JSON.parse(localStorage.getItem('usuario') || '{}')
+
   const navItems = [
     { path: "/salgados", label: "Salgados" },
     { path: "/combos", label: "Combos" },
@@ -19,8 +21,16 @@ const Navbar = () => {
 
   const { itens } = useContext(CarrinhoContext)
 
+  //Encontra-se ativo
   const linkClass = ({ isActive }) =>
     isActive ? "text-amber-400" : "text-white hover:text-amber-400 transition-colors"
+
+  // Função para deslogar o usuário
+  const handleLogout = () => {
+    localStorage.removeItem('logado')
+    window.location.href = '/login'
+  }
+
 
   return (
     <>
@@ -115,6 +125,14 @@ const Navbar = () => {
             </button>
           </div>
 
+
+          <li className="border-b border-gray-700 p-4 space-y-3 pb-3 mb-2">
+            <div className="px-4 py-3">
+              <p className="text-white font-bold">{usuario?.nome || 'Usuário'}</p>
+              <p className="text-gray-400 text-sm">{usuario?.telefone || ''}</p>
+            </div>
+          </li>
+
           <ul className="flex flex-col p-4 space-y-3">
             {navItems.map(item => (
               <li key={item.path}>
@@ -127,6 +145,15 @@ const Navbar = () => {
                 </Link>
               </li>
             ))}
+            {/* Botão Sair */}
+            <li>
+              <button
+                onClick={handleLogout}
+                className="w-full text-left px-4 py-3 text-red-400 hover:bg-gray-700 rounded-lg transition-colors"
+              >
+                Sair
+              </button>
+            </li>
           </ul>
         </div>
       </nav>
