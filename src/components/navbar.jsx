@@ -53,7 +53,7 @@ const Navbar = () => {
               </button>
 
               {/* CENTRO: Logo */}
-              <div className="flex items-start gap-1 ">
+              <Link to="/salgados" className="flex items-start gap-1 ">
                 <CiBeerMugFull className="text-white text-3xl text-center items-start" />
                 <div className="text-center">
                   <h1 className="font-logo text-xl md:text-2xl text-white">
@@ -63,7 +63,7 @@ const Navbar = () => {
                     desde 2024
                   </p>
                 </div>
-              </div>
+              </Link>
 
               {/* DIREITA: Ícone Perfil + Carrinho */}
               <div className="flex items-center gap-4">
