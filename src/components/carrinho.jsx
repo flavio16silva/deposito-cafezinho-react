@@ -100,7 +100,7 @@ const Carrinho = () => {
 
     window.open(urlWhatsApp, '_blank')
     //window.location.href = urlWhatsApp
-
+    setItens([])
     setPedidoEnviado(true)
 
   }
