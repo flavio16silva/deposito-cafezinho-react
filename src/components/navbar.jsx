@@ -30,6 +30,7 @@ const Navbar = () => {
   // Função para deslogar o usuário
   const handleLogout = () => {
     localStorage.removeItem('logado')
+    localStorage.removeItem('usuario')
     window.location.href = '/login'
   }
 
@@ -88,6 +89,7 @@ const Navbar = () => {
                         />
 
                         {/* Menu do perfil */}
+                        {/* Só mostra se usuário logado */}
                         <div className="absolute right-0 mt-2 w-64 bg-gray-800 rounded-lg shadow-xl z-50 border border-gray-700">
                           <div className="p-4 border-b border-gray-700">
                             <p className="text-white font-bold">{usuario?.nome}</p>
@@ -169,13 +171,15 @@ const Navbar = () => {
             </button>
           </div>
 
-
-          <li className="border-b border-gray-700 p-4 space-y-3 pb-3 mb-2">
-            <div className="px-4 py-3">
-              <p className="text-white font-bold">{usuario?.nome || 'Usuário'}</p>
-              <p className="text-gray-400 text-sm">{usuario?.telefone || ''}</p>
-            </div>
-          </li>
+          {/* Só mostra botão se usuário logado */}
+          {usuario?.nome && (
+            <li className="border-b border-gray-700 p-4 space-y-3 pb-3 mb-2">
+              <div className="px-4 py-3">
+                <p className="text-white font-bold">{usuario.nome}</p>
+                <p className="text-gray-400 text-sm">{usuario.telefone}</p>
+              </div>
+            </li>
+          )}
 
           <ul className="flex flex-col p-4 space-y-3">
             {navItems.map(item => (
@@ -189,15 +193,18 @@ const Navbar = () => {
                 </Link>
               </li>
             ))}
+
             {/* Botão Sair */}
-            <li>
-              <button
-                onClick={handleLogout}
-                className="w-full text-left px-4 py-3 text-red-400 hover:bg-gray-700 rounded-lg transition-colors"
-              >
-                Sair
-              </button>
-            </li>
+            {usuario?.nome && (
+              <li>
+                <button
+                  onClick={handleLogout}
+                  className="w-full text-left px-4 py-3 text-red-400 hover:bg-gray-700 rounded-lg transition-colors"
+                >
+                  Sair
+                </button>
+              </li>
+            )}
           </ul>
         </div>
       </nav>
