@@ -71,15 +71,16 @@ const Carrinho = () => {
     const numeroWhatsApp = "5571993462490"
 
     const usuario = JSON.parse(localStorage.getItem('usuario') || '{}')
+    const separador = "-".repeat(40)
 
     let mensagem = " *NOVO PEDIDO - DEPÓSITO CAFEZINHO* \n\n"
 
-    mensagem += `*Cliente:* ${usuario.nome || 'Cliente não identificado'}\n`
-    mensagem += `*Telefone* ${usuario.telefone || 'Não informado'} \n\n`
+    mensagem += `👤 *Cliente:* ${usuario.nome || 'Cliente não identificado'}\n`
+    mensagem += `📞 *Telefone* ${usuario.telefone || 'Não informado'} \n\n`
 
     mensagem += "📅 *Data do Pedido:* " + new Date().toLocaleString() + "\n\n"
     mensagem += "*🛒 ITENS DO PEDIDO:*\n"
-    mensagem += "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n"
+    mensagem += `${separador}\n\n`
 
     itens.forEach((item, index) => {
       mensagem += `${index + 1}. ${item.nome}\n`
@@ -87,7 +88,7 @@ const Carrinho = () => {
       mensagem += `   💰 Subtotal: R$ ${item.total.toFixed(2)}\n\n`
     })
 
-    mensagem += "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n"
+    mensagem += `${separador}\n\n`
     mensagem += `💰 *TOTAL DO PEDIDO:* R$ ${total.toFixed(2)}\n\n`
     mensagem += "✨ Agradecemos pela preferência! ✨"
 
