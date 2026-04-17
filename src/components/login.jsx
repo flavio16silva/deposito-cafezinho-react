@@ -58,6 +58,16 @@ const Login = () => {
       localStorage.setItem('logado', 'true') // Marca como logado
       alert(`✅ Bem-vindo(a) de volta, ${usuario.nome}!`)
 
+      // Salva os dados do usuário
+      const usuario = {
+        nome: usuarioSalvo.nome,
+        telefone: celular,
+        email: usuarioSalvo.email,
+        senha: senha
+      }
+      localStorage.setItem('usuario', JSON.stringify(usuario))
+      localStorage.setItem('logado', 'true')
+
       // Verifica se tinha carrinho pendente antes do login
       const carrinhoPendente = localStorage.getItem('carrinhoPendente')
 
@@ -90,7 +100,7 @@ const Login = () => {
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-white">🍻 Depósito</h1>
           <h2 className="text-2xl font-bold text-amber-400">Cafezinho</h2>
-          <p className="text-gray-400 text-sm mt-2">Faça login para continuar</p>
+          <p className="text-gray-400 text-sm mt-2">Faça seu login</p>
         </div>
 
         {/* Formulário */}
@@ -171,9 +181,9 @@ const Login = () => {
           <div className="text-center mt-2">
             <Link
               to="/salgados"
-              className="text-gray-400 hover:text-amber-400 transition-colors text-sm font-bold"
+              className="text-amber-400 transition-colors text-xl"
             >
-              Ver cardápio
+              Veja nosso <span className="font-bold uppercase">cardápio.</span>
             </Link>
           </div>
 
