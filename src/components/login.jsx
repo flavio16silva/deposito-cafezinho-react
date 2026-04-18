@@ -103,88 +103,97 @@ const Login = () => {
           <p className="text-gray-400 text-sm mt-2">Faça seu login</p>
         </div>
 
-        {/* Formulário */}
-        <div className="space-y-6">
 
-          {/* Campo Celular */}
-          <div className="relative">
-            <label
-              htmlFor="celular"
-              className={`absolute left-3 transition-all duration-200 pointer-events-none
+        <div className="backdrop-blur-md rounded-2xl p-8 
+                border border-gray-600 shadow-lg
+                hover:border-amber-400 
+                focus-within:border-amber-400 focus-within:shadow-amber-400/20
+                transition-all duration-300">
+
+          {/* Formulário */}
+          <div className="space-y-6">
+
+            {/* Campo Celular */}
+            <div className="relative">
+              <label
+                htmlFor="celular"
+                className={`absolute left-3 transition-all duration-200 pointer-events-none
                 ${focoCelular || celular
-                  ? 'text-xs -top-2 text-amber-400 bg-gray-900 px-1'
-                  : 'text-base top-3 text-gray-400'
-                }`}
-            >
-              Celular
-            </label>
-            <input
-              id="celular"
-              type="tel"
-              value={celular}
-              onChange={(e) => setCelular(mascaraCelular(e.target.value))}
-              onFocus={() => setFocoCelular(true)}
-              onBlur={() => setFocoCelular(false)}
-              className="w-full bg-transparent border border-gray-600 rounded-lg py-3 px-3 text-white focus:outline-none focus:border-amber-400 transition-colors"
-              placeholder=" "
-            />
-          </div>
+                    ? 'text-xs -top-2 text-amber-400 bg-gray-900 px-1'
+                    : 'text-base top-3 text-gray-400'
+                  }`}
+              >
+                Celular
+              </label>
+              <input
+                id="celular"
+                type="tel"
+                value={celular}
+                onChange={(e) => setCelular(mascaraCelular(e.target.value))}
+                onFocus={() => setFocoCelular(true)}
+                onBlur={() => setFocoCelular(false)}
+                className="w-full bg-transparent border border-gray-600 rounded-lg py-3 px-3 text-white focus:outline-none focus:border-amber-400 transition-colors"
+                placeholder=" "
+              />
+            </div>
 
-          {/* Campo Senha */}
-          <div className="relative">
-            <label
-              htmlFor="senha"
-              className={`absolute left-3 transition-all duration-200 pointer-events-none
+            {/* Campo Senha */}
+            <div className="relative">
+              <label
+                htmlFor="senha"
+                className={`absolute left-3 transition-all duration-200 pointer-events-none
                 ${focoSenha || senha
-                  ? 'text-xs -top-2 text-amber-400 bg-gray-900 px-1'
-                  : 'text-base top-3 text-gray-400'
-                }`}
-            >
-              Senha
-            </label>
-            <input
-              id="senha"
-              type="password"
-              value={senha}
-              onChange={(e) => setSenha(e.target.value)}
-              onFocus={() => setFocoSenha(true)}
-              onBlur={() => setFocoSenha(false)}
-              className="w-full bg-transparent border border-gray-600 rounded-lg py-3 px-3 text-white focus:outline-none focus:border-amber-400 transition-colors"
-              placeholder=" "
-            />
-          </div>
+                    ? 'text-xs -top-2 text-amber-400 bg-gray-900 px-1'
+                    : 'text-base top-3 text-gray-400'
+                  }`}
+              >
+                Senha
+              </label>
+              <input
+                id="senha"
+                type="password"
+                value={senha}
+                onChange={(e) => setSenha(e.target.value)}
+                onFocus={() => setFocoSenha(true)}
+                onBlur={() => setFocoSenha(false)}
+                className="w-full bg-transparent border border-gray-600 rounded-lg py-3 px-3 text-white focus:outline-none focus:border-amber-400 transition-colors"
+                placeholder=" "
+              />
+            </div>
 
-          {/* Botão Entrar */}
-          <button
-            onClick={handleLogin}
-            disabled={!celular || !senha}
-            className={`w-full py-3 rounded-lg font-bold transition-colors
+            {/* Botão Entrar */}
+            <button
+              onClick={handleLogin}
+              disabled={!celular || !senha}
+              className={`w-full py-3 rounded-lg font-bold transition-colors
               ${!celular || !senha
-                ? 'bg-gray-600 cursor-not-allowed'
-                : 'bg-amber-500 hover:bg-amber-600'
-              } text-white`}
-          >
-            Entrar
-          </button>
-
-          {/* Link para cadastro */}
-          <div className="text-center mt-4">
-            <p className="text-gray-400 text-sm">
-              Não tem conta?{' '}
-              <Link to="/cadastro" className="text-amber-400 hover:text-amber-300 font-semibold">
-                Faça cadastro
-              </Link>
-            </p>
-          </div>
-
-          {/* Link para ver cardápio sem login */}
-          <div className="text-center mt-2">
-            <Link
-              to="/salgados"
-              className="text-amber-400 transition-colors text-xl"
+                  ? 'bg-gray-600 cursor-not-allowed'
+                  : 'bg-amber-500 hover:bg-amber-600'
+                } text-white`}
             >
-              Veja nosso <span className="font-bold uppercase">cardápio.</span>
-            </Link>
+              Entrar
+            </button>
+
+            {/* Link para cadastro */}
+            <div className="text-center mt-4">
+              <p className="text-gray-400 text-sm">
+                Não tem conta?{' '}
+                <Link to="/cadastro" className="text-amber-400 hover:text-amber-300 font-semibold">
+                  Faça cadastro
+                </Link>
+              </p>
+            </div>
+
+            {/* Link para ver cardápio sem login */}
+            <div className="text-center mt-2">
+              <Link
+                to="/salgados"
+                className="text-amber-400 transition-colors text-xl"
+              >
+                Veja nosso <span className="font-bold uppercase">cardápio.</span>
+              </Link>
+            </div>
+
           </div>
 
         </div>
