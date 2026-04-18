@@ -12,7 +12,7 @@ const Navbar = () => {
   const [isCarrinhoOpen, setIsCarrinhoOpen] = useState(false)
   const [isPerfilOpen, setIsPerfilOpen] = useState(false)
 
-  const usuario = JSON.parse(localStorage.getItem('usuario') || '{}')
+  const usuario = JSON.parse(localStorage.getItem('usuarioLogado') || '{}')
 
   const navItems = [
     { path: "/salgados", label: "Salgados" },
@@ -30,7 +30,7 @@ const Navbar = () => {
   // Função para deslogar o usuário
   const handleLogout = () => {
     localStorage.removeItem('logado')
-    localStorage.removeItem('usuario')
+    localStorage.removeItem('usuarioLogado')
     window.location.href = '/login'
   }
 

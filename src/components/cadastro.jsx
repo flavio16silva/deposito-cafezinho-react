@@ -49,8 +49,17 @@ const Cadastro = () => {
       dataCadastro: new Date().toISOString()
     }
 
-    // Salva no localStorage
-    localStorage.setItem('usuario', JSON.stringify(usuario))
+    // Pega a lista de usuários cadastrados
+    const usuariosCadastrados = JSON.parse(localStorage.getItem('usuariosCadastrados') || '[]')
+
+    // Adiciona o novo usuário
+    usuariosCadastrados.push(usuario)
+
+    // Salva a lista completa
+    localStorage.setItem('usuariosCadastrados', JSON.stringify(usuariosCadastrados))
+
+    // Salva o usuário atual (logado)
+    localStorage.setItem('usuarioLogado', JSON.stringify(usuario))
 
     // Marca como logado
     localStorage.setItem('logado', 'true')

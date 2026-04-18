@@ -44,28 +44,28 @@ const Login = () => {
       return
     }
 
-    // Busca usuário salvo no localStorage
-    const usuarioSalvo = localStorage.getItem('usuario')
-    if (!usuarioSalvo) {
+    // Busca usuário na lista de cadastrados
+    const usuariosCadastrados = JSON.parse(localStorage.getItem('usuariosCadastrados') || '[]')
+    const usuario = usuariosCadastrados.find(u => u.telefone === celular)
+
+    if (!usuario) {
       alert('Usuário não encontrado! Faça seu cadastro primeiro.')
       return
     }
-
-    const usuario = JSON.parse(usuarioSalvo)
 
     // Verifica se o celular e senha correspondem
     if (usuario.telefone === celular && usuario.senha === senha) {
       localStorage.setItem('logado', 'true') // Marca como logado
       alert(`✅ Bem-vindo(a) de volta, ${usuario.nome}!`)
 
-      // Salva os dados do usuário
-      const usuario = {
-        nome: usuarioSalvo.nome,
+      // Salva os dados do usuário logado
+      const usuarioLogado = {
+        nome: usuario.nome,
         telefone: celular,
-        email: usuarioSalvo.email,
+        email: usuario.email,
         senha: senha
       }
-      localStorage.setItem('usuario', JSON.stringify(usuario))
+      localStorage.setItem('usuarioLogado', JSON.stringify(usuarioLogado))
       localStorage.setItem('logado', 'true')
 
       // Verifica se tinha carrinho pendente antes do login
