@@ -2,9 +2,13 @@ import { Link } from "react-router-dom"
 import { useState } from "react"
 
 const MeusPedidos = () => {
-  // Busca os pedidos salvos
+  // Busca o usuário logado
+  const usuario = JSON.parse(localStorage.getItem('usuarioLogado') || '{}')
+  const chavePedidos = `pedidos_${usuario.telefone}`
+
+  // Busca os pedidos deste usuário
   const [pedidos, setPedidos] = useState(() => {
-    return JSON.parse(localStorage.getItem("pedidos") || "[]")
+    return JSON.parse(localStorage.getItem(chavePedidos) || "[]")
   })
 
   // Função para formatar a data
@@ -23,14 +27,14 @@ const MeusPedidos = () => {
   const excluirPedido = (id) => {
     const novosPedidos = pedidos.filter(pedido => pedido.id !== id)
     setPedidos(novosPedidos)
-    localStorage.setItem("pedidos", JSON.stringify(novosPedidos))
+    localStorage.setItem(chavePedidos, JSON.stringify(novosPedidos))
   }
 
   // Função para excluir todos os pedidos
   const excluirTodosPedidos = () => {
     if (window.confirm("Tem certeza que deseja excluir TODOS os pedidos?")) {
       setPedidos([])
-      localStorage.setItem("pedidos", JSON.stringify([]))
+      localStorage.setItem(chavePedidos, JSON.stringify([]))
     }
   }
 

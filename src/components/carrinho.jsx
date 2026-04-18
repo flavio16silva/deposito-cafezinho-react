@@ -49,8 +49,12 @@ const Carrinho = () => {
       return
     }
 
-    // Pega a lista de pedidos já salvos
-    const pedidosSalvos = JSON.parse(localStorage.getItem("pedidos") || "[]")
+    // Busca o usuário logado
+    const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado') || '{}')
+    const chavePedidos = `pedidos_${usuarioLogado.telefone}`
+
+    // Pega a lista de pedidos deste usuário
+    const pedidosSalvos = JSON.parse(localStorage.getItem(chavePedidos) || "[]")
 
     // Cria um novo pedido com data atual
     const novoPedido = {
@@ -64,13 +68,13 @@ const Carrinho = () => {
     // Adiciona o novo pedido à lista
     pedidosSalvos.push(novoPedido)
 
-    // Salva no localStorage
-    localStorage.setItem("pedidos", JSON.stringify(pedidosSalvos))
+    // Salva no localStorage com chave do usuário
+    localStorage.setItem(chavePedidos, JSON.stringify(pedidosSalvos))
 
     //ENVIA A MENSAGEM VIA WHATSAPP
     const numeroWhatsApp = "5571993462490"
 
-    const usuario = JSON.parse(localStorage.getItem('usuario') || '{}')
+    const usuario = JSON.parse(localStorage.getItem('usuarioLogado') || '{}')
     const separador = "-".repeat(40)
 
     let mensagem = " *NOVO PEDIDO - DEPÓSITO CAFEZINHO* \n\n"
