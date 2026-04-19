@@ -49,7 +49,7 @@ const Login = () => {
   const handleLogin = () => {
     // Verifica se os campos estão preenchidos
     if (!celular || !senha) {
-      alert('Preencha todos os campos')
+      toast.warning('Preencha todos os campos')
       return
     }
 
@@ -65,7 +65,7 @@ const Login = () => {
     // Verifica se o celular e senha correspondem
     if (usuario.telefone === celular && usuario.senha === senha) {
       localStorage.setItem('logado', 'true') // Marca como logado
-      alert(`✅ Bem-vindo(a) de volta, ${usuario.nome}!`)
+      toast.success(`✅ Bem-vindo(a) de volta, ${usuario.nome}!`)
 
       // Salva os dados do usuário logado
       const usuarioLogado = {
@@ -109,12 +109,12 @@ const Login = () => {
         // Remove o carrinho pendente (já foi recuperado)
         localStorage.removeItem('carrinhoPendente')
 
-        alert('🛒 Seu carrinho foi restaurado! Continue seu pedido.')
+        toast.success('🛒 Seu carrinho foi restaurado! Continue seu pedido.')
       }
 
       navigate('/salgados')
     } else {
-      alert('❌ Celular ou senha incorretos!')
+      toast.error('❌ Celular ou senha incorretos!')
     }
   }
 
