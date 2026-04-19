@@ -1,13 +1,22 @@
 // Importa os hooks necessários
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useContext } from 'react'
 import { CarrinhoContext } from '../context/carrinhoContext'
+import { toast } from 'react-toastify'
 
 const Login = () => {
   // Estados para armazenar os dados do formulário
   const [celular, setCelular] = useState('')
   const [senha, setSenha] = useState('')
+
+  useEffect(() => {
+    const mensagem = localStorage.getItem('mensagemLogin')
+    if (mensagem) {
+      toast.info(mensagem)  // ← notificação que não trava
+      localStorage.removeItem('mensagemLogin')
+    }
+  }, [])
 
   const { adicionar } = useContext(CarrinhoContext)
 
@@ -49,7 +58,7 @@ const Login = () => {
     const usuario = usuariosCadastrados.find(u => u.telefone === celular)
 
     if (!usuario) {
-      alert('Usuário não encontrado! Faça seu cadastro primeiro.')
+      toast.warning('Usuário não encontrado! Faça seu cadastro primeiro.')
       return
     }
 

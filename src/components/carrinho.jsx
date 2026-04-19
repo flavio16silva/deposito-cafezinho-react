@@ -1,6 +1,6 @@
 import { useContext, useState, useEffect } from "react"
 import { CarrinhoContext } from "../context/carrinhoContext"
-
+import { toast } from 'react-toastify'
 
 const Carrinho = () => {
   // Pega os dados do contexto
@@ -14,7 +14,7 @@ const Carrinho = () => {
     const handleFocus = () => {
       setItens([])
       setPedidoEnviado(false)
-      alert("🛒 Carrinho limpo! Seu pedido foi registrado.")
+      toast.warning("🛒 Carrinho limpo! Seu pedido foi registrado.")
     }
 
     window.addEventListener('focus', handleFocus)
@@ -33,7 +33,7 @@ const Carrinho = () => {
   // Finalizar o pedido
   const finalizarPedido = () => {
     if (itens.length === 0) {
-      alert("⚠️ Carrinho vazio! Adicione itens antes de finalizar.")
+      toast.warning("⚠️ Carrinho vazio! Adicione itens antes de finalizar.")
       return
     }
 
@@ -43,8 +43,9 @@ const Carrinho = () => {
     if (!logado) {
       // Salva o carrinho atual para não perder
       localStorage.setItem('carrinhoPendente', JSON.stringify(itens))
+      localStorage.setItem('mensagemLogin', '🔒 Faça login para finalizar seu pedido!')
 
-      alert('🔒 Faça login para finalizar seu pedido!')
+      // alert('🔒 Faça login para finalizar seu pedido!')
       window.location.href = '/login'
       return
     }
@@ -101,7 +102,7 @@ const Carrinho = () => {
     const mensagemCodificada = encodeURIComponent(mensagem)
     const urlWhatsApp = `https://api.whatsapp.com/send/?phone=${numeroWhatsApp}&text=${mensagemCodificada}&type=phone_number&app_absent=0`
 
-    alert("✅ Pedido preparado! O WhatsApp vai abrir para você confirmar o envio.")
+    toast.warning("✅ Pedido preparado! O WhatsApp vai abrir para você confirmar o envio.")
 
     window.open(urlWhatsApp, '_blank')
     //window.location.href = urlWhatsApp
