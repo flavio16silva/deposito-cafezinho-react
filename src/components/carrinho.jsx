@@ -1,7 +1,6 @@
 import { useContext, useState, useEffect } from "react"
 import { CarrinhoContext } from "../context/carrinhoContext"
 import { toast } from 'react-toastify'
-import { useNavigate } from 'react-router-dom'
 
 const Carrinho = () => {
   // Pega os dados do contexto
@@ -9,7 +8,7 @@ const Carrinho = () => {
 
   const [pedidoEnviado, setPedidoEnviado] = useState(false)
 
-  const navigate = useNavigate()
+
 
   useEffect(() => {
     if (!pedidoEnviado) return
