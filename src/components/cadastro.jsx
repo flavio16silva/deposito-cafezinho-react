@@ -23,10 +23,10 @@ const Cadastro = () => {
   // Função para processar o cadastro
   const handleCadastro = () => {
     // Verifica se todos os campos estão preenchidos
-    if (!nome || !telefone || !email || !senha) {
-      alert('Por favor, preencha todos os campos')
-      return
-    }
+    // if (!nome || !telefone || !email || !senha) {
+    //   alert('Por favor, preencha todos os campos')
+    //   return
+    // }
 
     // Verifica se o email é válido
     if (!validarEmail(email)) {

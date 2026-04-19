@@ -8,8 +8,6 @@ const Carrinho = () => {
 
   const [pedidoEnviado, setPedidoEnviado] = useState(false)
 
-
-
   useEffect(() => {
     if (!pedidoEnviado) return
 
@@ -45,10 +43,15 @@ const Carrinho = () => {
     if (!logado) {
       // Salva o carrinho atual para não perder
       localStorage.setItem('carrinhoPendente', JSON.stringify(itens))
-      localStorage.setItem('mensagemLogin', '🔒 Faça login ou cadastro para finalizar seu pedido!')
+      toast.info("🔒 Faça login ou cadastro para finalizar seu pedido!")
+      // localStorage.setItem('mensagemLogin', '🔒 Faça login ou cadastro para finalizar seu pedido!')
+
+      setTimeout(() => {
+        window.location.href = '/login'
+      }, 1500)
 
       // alert('🔒 Faça login para finalizar seu pedido!')
-      window.location.href = '/login'
+      // window.location.href = '/login'
       return
     }
 

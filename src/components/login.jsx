@@ -1,5 +1,5 @@
 // Importa os hooks necessários
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useContext } from 'react'
 import { CarrinhoContext } from '../context/carrinhoContext'
@@ -10,13 +10,13 @@ const Login = () => {
   const [celular, setCelular] = useState('')
   const [senha, setSenha] = useState('')
 
-  useEffect(() => {
-    const mensagem = localStorage.getItem('mensagemLogin')
-    if (mensagem) {
-      toast.info(mensagem)  // ← notificação que não trava
-      localStorage.removeItem('mensagemLogin')
-    }
-  }, [])
+  // useEffect(() => {
+  //   const mensagem = localStorage.getItem('mensagemLogin')
+  //   if (mensagem) {
+  //     toast.info(mensagem)
+  //     localStorage.removeItem('mensagemLogin')
+  //   }
+  // }, [])
 
   const { adicionar } = useContext(CarrinhoContext)
 
@@ -48,10 +48,10 @@ const Login = () => {
   // Função para processar o login
   const handleLogin = () => {
     // Verifica se os campos estão preenchidos
-    if (!celular || !senha) {
-      toast.warning('Preencha todos os campos')
-      return
-    }
+    // if (!celular || !senha) {
+    //   toast.warning('Preencha todos os campos')
+    //   return
+    // }
 
     // Busca usuário na lista de cadastrados
     const usuariosCadastrados = JSON.parse(localStorage.getItem('usuariosCadastrados') || '[]')
