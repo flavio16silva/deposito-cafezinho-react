@@ -32,10 +32,10 @@ const Carrinho = () => {
 
   // Finalizar o pedido
   const finalizarPedido = () => {
-    if (itens.length === 0) {
-      toast.warning("⚠️ Carrinho vazio! Adicione itens antes de finalizar.")
-      return
-    }
+    // if (itens.length === 0) {
+    //   toast.warning("⚠️ Carrinho vazio! Adicione itens antes de finalizar.")
+    //   return
+    // }
 
     // Verifica se o usuário está logado
     const logado = localStorage.getItem('logado') === 'true'
@@ -48,7 +48,7 @@ const Carrinho = () => {
 
       setTimeout(() => {
         window.location.href = '/login'
-      }, 1500)
+      }, 2500)
 
       // alert('🔒 Faça login para finalizar seu pedido!')
       // window.location.href = '/login'
