@@ -49,7 +49,7 @@ const Carrinho = () => {
       localStorage.setItem('mensagemLogin', '🔒 Faça login ou cadastro para finalizar seu pedido!')
 
       // alert('🔒 Faça login para finalizar seu pedido!')
-      navigate('/login')
+      window.location.href = '/login'
       return
     }
 
