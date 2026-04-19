@@ -68,6 +68,23 @@ const Login = () => {
       localStorage.setItem('usuarioLogado', JSON.stringify(usuarioLogado))
       localStorage.setItem('logado', 'true')
 
+      // MIGRA PEDIDOS ANTIGOS (se existirem)
+      const pedidosAntigos = localStorage.getItem('pedidos')
+      if (pedidosAntigos) {
+        const chavePedidos = `pedidos_${celular}`
+        const pedidosExistentes = JSON.parse(localStorage.getItem(chavePedidos) || '[]')
+        const pedidosParaMigrar = JSON.parse(pedidosAntigos)
+
+        // Junta os pedidos antigos com os existentes
+        const todosPedidos = [...pedidosExistentes, ...pedidosParaMigrar]
+
+        // Salva na nova chave
+        localStorage.setItem(chavePedidos, JSON.stringify(todosPedidos))
+
+        // Remove a chave antiga
+        localStorage.removeItem('pedidos')
+      }
+
       // Verifica se tinha carrinho pendente antes do login
       const carrinhoPendente = localStorage.getItem('carrinhoPendente')
 

@@ -108,6 +108,9 @@ const Carrinho = () => {
     setItens([])
     setPedidoEnviado(true)
 
+    // Limpa o carrinho pendente (se existir)
+    localStorage.removeItem('carrinhoPendente')
+
   }
 
   return (
