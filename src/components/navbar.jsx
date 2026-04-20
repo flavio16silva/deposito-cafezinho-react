@@ -173,7 +173,7 @@ const Navbar = () => {
 
           {/* Só mostra botão se usuário logado */}
           {usuario?.nome && (
-            <li className="border-b border-gray-700 p-4 space-y-3 pb-3 mb-2">
+            <li className="list-none border-b border-gray-700 p-4 space-y-3 pb-3 mb-2">
               <div className="px-4 py-3">
                 <p className="text-white font-bold">{usuario.nome}</p>
                 <p className="text-gray-400 text-sm">{usuario.telefone}</p>
