@@ -47,20 +47,28 @@ const Navbar = () => {
 
               {/* ESQUERDA: Botão Hamburguer (Mobile) */}
               <button
-                onClick={() => setIsMenuOpen(true)}
+                onClick={() => {
+                  setIsCarrinhoOpen(false)
+                  setIsMenuOpen(true)
+                }}
                 className=" md:hidden text-white p-2 rounded-lg hover:bg-gray-700 transition-colors"
               >
                 <HiMenu className="text-3xl" />
               </button>
 
               {/* CENTRO: Logo */}
-              <Link to="/salgados" className="flex items-start gap-1 ">
-                <CiBeerMugFull className="text-white text-3xl text-center items-start" />
+              <Link to="/salgados"
+                onClick={() => {
+                  setIsMenuOpen(false)
+                  setIsCarrinhoOpen(false)
+                }}
+                className="flex items-center gap-0">
+                <CiBeerMugFull className="text-white text-3xl sm:text-xl md:text-2xl shrink-0" />
                 <div className="text-center">
-                  <h1 className="font-logo text-xl md:text-2xl text-white">
+                  <h1 className="font-logo text-lg sm:text-4xl md:text-3xl text-white ">
                     Depósito Cafezinho
                   </h1>
-                  <p className="font-sans text-xs md:text-sm text-gray-300">
+                  <p className="font-sans text-xs sm:text-sm text-gray-300 whitespace-nowrap text-center">
                     desde 2024
                   </p>
                 </div>
@@ -110,7 +118,10 @@ const Navbar = () => {
                 {/* Carrinho */}
                 <div className="relative">
                   <button
-                    onClick={() => setIsCarrinhoOpen(true)}
+                    onClick={() => {
+                      setIsMenuOpen(false)
+                      setIsCarrinhoOpen(true)
+                    }}
                     className="text-white text-3xl hover:text-amber-400 transition-colors"
                   >
                     🛒
@@ -207,11 +218,12 @@ const Navbar = () => {
             )}
           </ul>
         </div>
-      </nav>
+      </nav >
 
       {/* MODAL DO CARRINHO */}
-      <div className={`fixed top-0 right-0 h-full w-full bg-gray-800 shadow-2xl z-50 transform transition-transform duration-300 ease-in-out
-      ${isCarrinhoOpen ? "translate-x-0" : "translate-x-full"}`}>
+      < div className={`fixed top-0 right-0 h-full w-80 sm:w-3/4 lg:w-2/5 bg-gray-800 shadow-2xl z-50 transform transition-transform duration-300 ease-in-out
+      ${isCarrinhoOpen ? "translate-x-0" : "translate-x-full"}`
+      }>
 
         <div className="flex justify-between items-center p-4 border-b border-gray-700">
           <span className="text-white font-bold text-lg">🛒 Carrinho</span>
@@ -238,7 +250,7 @@ const Navbar = () => {
           )}
         </div>
 
-      </div>
+      </div >
     </>
   )
 }
