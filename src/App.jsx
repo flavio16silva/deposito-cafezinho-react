@@ -17,9 +17,9 @@ import { Cadastro } from './components/cadastro'
 
 const Layout = () => {
   return (
-    <div className='flex flex-col bg-gray-900'>
+    <div className='flex flex-col bg-gray-900 overflow-x-hidden'>
       <Navbar />
-      <main className='flex-1'>
+      <main className='flex-1 w-full max-w-full px-4 sm:px-6 md:px-8'>
         <Outlet />
       </main>
       <Footer />
@@ -29,7 +29,7 @@ const Layout = () => {
 
 const LayoutSimples = () => {
   return (
-    <div className='min-h-screen bg-gray-900'>
+    <div className='min-h-screen bg-gray-900 overflow-x-hidden px-4 sm:px-6 md:px-8'>
       <Outlet />
     </div>
   )
