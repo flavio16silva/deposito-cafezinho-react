@@ -4,3 +4,10 @@
   --font-logo: "Lobster", cursive;
   --font-sans: "Montserrat", sans-serif;
 }
+
+body, html {
+  background-color: #111827;
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100%;
+}
