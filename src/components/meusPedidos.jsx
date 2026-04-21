@@ -1,10 +1,15 @@
 import { Link } from "react-router-dom"
 import { useState } from "react"
+import { ConfirmModal } from "./confirmModal"
+import { toast } from 'react-toastify'
 
 const MeusPedidos = () => {
   // Busca o usuário logado
   const usuario = JSON.parse(localStorage.getItem('usuarioLogado') || '{}')
   const chavePedidos = `pedidos_${usuario.telefone}`
+
+  //Modal
+  const [showConfirmModal, setShowConfirmModal] = useState(false)
 
   // Busca os pedidos deste usuário
   const [pedidos, setPedidos] = useState(() => {
@@ -32,10 +37,18 @@ const MeusPedidos = () => {
 
   // Função para excluir todos os pedidos
   const excluirTodosPedidos = () => {
-    if (window.confirm("Tem certeza que deseja excluir TODOS os pedidos?")) {
-      setPedidos([])
-      localStorage.setItem(chavePedidos, JSON.stringify([]))
-    }
+    // if (window.confirm("Tem certeza que deseja excluir TODOS os pedidos?")) {
+    //   setPedidos([])
+    //   localStorage.setItem(chavePedidos, JSON.stringify([]))
+    // }
+    setShowConfirmModal(true)
+  }
+
+  const confirmarExclusaoTodos = () => {
+    setPedidos([])
+    localStorage.setItem(chavePedidos, JSON.stringify([]))
+    toast.success("🗑️ Todos os pedidos foram excluídos!")
+    setShowConfirmModal(false)
   }
 
   return (
@@ -143,6 +156,14 @@ const MeusPedidos = () => {
         )}
 
       </div>
+      {/* Modal de confirmação - Excluir Todos */}
+      <ConfirmModal
+        isOpen={showConfirmModal}
+        onClose={() => setShowConfirmModal(false)}
+        onConfirm={confirmarExclusaoTodos}
+        title="Excluir todos os pedidos"
+        message="Tem certeza que deseja excluir TODOS os pedidos? Esta ação não pode ser desfeita."
+      />
     </div>
   )
 }
