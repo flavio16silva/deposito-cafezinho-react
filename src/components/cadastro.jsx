@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { toast } from 'react-toastify'
 
 const Cadastro = () => {
   // Estados para armazenar os dados do formulário
@@ -30,13 +31,13 @@ const Cadastro = () => {
 
     // Verifica se o email é válido
     if (!validarEmail(email)) {
-      alert('Por favor, digite um e-mail válido')
+      toast.warning('Por favor, digite um e-mail válido')
       return
     }
 
     // Verifica se a senha tem no mínimo 6 caracteres
     if (senha.length < 6) {
-      alert('A senha deve ter no mínimo 6 caracteres')
+      toast.warning('A senha deve ter no mínimo 6 caracteres')
       return
     }
 
@@ -65,10 +66,14 @@ const Cadastro = () => {
     localStorage.setItem('logado', 'true')
 
     // Mostra mensagem de sucesso
-    alert(`✅ Cadastro realizado com sucesso!\nBem-vindo(a), ${nome}!`)
+    toast.success(`✅ Cadastro realizado! Bem-vindo(a), ${nome}!`)
+
+    setTimeout(() => {
+      window.location.href = '/salgados'
+    }, 2500)
 
     // Redireciona para o cardápio
-    window.location.href = '/salgados'
+    // window.location.href = '/salgados'
   }
 
   return (

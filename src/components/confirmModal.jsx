@@ -3,7 +3,7 @@ const ConfirmModal = ({ isOpen, onClose, onConfirm, title, message }) => {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50">
-      <div className="bg-gray-800 rounded-lg p-6 max-w-sm w-full mx-4">
+      <div className="bg-gray-800 rounded-lg p-6 max-w-sm w-full mx-4 border border-gray-600 shadow-xl">
         <h3 className="text-white font-bold text-lg mb-2">{title}</h3>
         <p className="text-gray-300 mb-6">{message}</p>
         <div className="flex gap-3 justify-end">

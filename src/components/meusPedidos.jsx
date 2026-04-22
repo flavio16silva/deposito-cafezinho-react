@@ -8,8 +8,9 @@ const MeusPedidos = () => {
   const usuario = JSON.parse(localStorage.getItem('usuarioLogado') || '{}')
   const chavePedidos = `pedidos_${usuario.telefone}`
 
-  //Modal
+  //Modal Excluir Pedidos
   const [showConfirmModal, setShowConfirmModal] = useState(false)
+  const [pedidoParaExcluir, setPedidoParaExcluir] = useState(null)
 
   // Busca os pedidos deste usuário
   const [pedidos, setPedidos] = useState(() => {
@@ -30,17 +31,11 @@ const MeusPedidos = () => {
 
   // Função para excluir um pedido específico
   const excluirPedido = (id) => {
-    const novosPedidos = pedidos.filter(pedido => pedido.id !== id)
-    setPedidos(novosPedidos)
-    localStorage.setItem(chavePedidos, JSON.stringify(novosPedidos))
+    setPedidoParaExcluir(id)
   }
 
   // Função para excluir todos os pedidos
   const excluirTodosPedidos = () => {
-    // if (window.confirm("Tem certeza que deseja excluir TODOS os pedidos?")) {
-    //   setPedidos([])
-    //   localStorage.setItem(chavePedidos, JSON.stringify([]))
-    // }
     setShowConfirmModal(true)
   }
 
@@ -49,6 +44,14 @@ const MeusPedidos = () => {
     localStorage.setItem(chavePedidos, JSON.stringify([]))
     toast.success("🗑️ Todos os pedidos foram excluídos!")
     setShowConfirmModal(false)
+  }
+
+  const confirmarExclusaoIndividual = () => {
+    const novosPedidos = pedidos.filter(pedido => pedido.id !== pedidoParaExcluir)
+    setPedidos(novosPedidos)
+    localStorage.setItem(chavePedidos, JSON.stringify(novosPedidos))
+    toast.info("📦 Pedido removido do histórico!")
+    setPedidoParaExcluir(null)
   }
 
   return (
@@ -161,8 +164,17 @@ const MeusPedidos = () => {
         isOpen={showConfirmModal}
         onClose={() => setShowConfirmModal(false)}
         onConfirm={confirmarExclusaoTodos}
-        title="Excluir todos os pedidos"
+        title="Excluir todos os pedidos:"
         message="Tem certeza que deseja excluir TODOS os pedidos? Esta ação não pode ser desfeita."
+      />
+
+      {/* Modal de confirmação - Excluir Pedido Individual */}
+      <ConfirmModal
+        isOpen={pedidoParaExcluir !== null}
+        onClose={() => setPedidoParaExcluir(null)}
+        onConfirm={confirmarExclusaoIndividual}
+        title="Excluir pedido:"
+        message="Tem certeza que deseja excluir este pedido? Esta ação não pode ser desfeita."
       />
     </div>
   )
