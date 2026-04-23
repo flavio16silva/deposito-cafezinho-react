@@ -43,6 +43,7 @@ export const CarrinhoProvider = ({ children }) => {
     setItens(itens.filter(item => item.id !== id))
   }
 
+  // Aumenta a quantidade do item
   const aumentar = (id) => {
     setItens(itens.map(item =>
       item.id === id
@@ -55,6 +56,7 @@ export const CarrinhoProvider = ({ children }) => {
     ))
   }
 
+  // Diminui a quantidade do item
   const diminuir = (id) => {
     setItens(itens.map(item =>
       item.id === id && item.quantidade > 1
