@@ -9,7 +9,7 @@ const PORT = 3001
 app.use(cors())
 app.use(express.json())
 
-// Cria a conexão com o banco (pool de conexões)
+// Configuração da conexão com o banco de dados
 const pool = mysql.createPool({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
@@ -28,8 +28,15 @@ app.get('/api/teste', (req, res) => {
 })
 
 // Importar rotas
+//usuarios
 const usuariosRoutes = require('./routes/usuarios')
 app.use('/api/usuarios', usuariosRoutes)
+
+//login
+const loginRoutes = require('./routes/login')
+app.use('/api/login', loginRoutes)
+
+
 
 app.listen(PORT, () => {
   console.log(`🚀 Servidor rodando em: http://localhost:${PORT}`)
