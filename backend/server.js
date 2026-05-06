@@ -36,6 +36,10 @@ app.use('/api/usuarios', usuariosRoutes)
 const loginRoutes = require('./routes/login')
 app.use('/api/login', loginRoutes)
 
+// Importar rota de pedidos
+const pedidosRoutes = require('./routes/pedidos')
+app.use('/api/pedidos', pedidosRoutes)
+
 
 
 app.listen(PORT, () => {
