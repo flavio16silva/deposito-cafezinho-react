@@ -77,6 +77,59 @@ router.post('/', async (req, res) => {
   }
 })
 
+
+
+// Rota para listar os pedidos de um usuário específico
+// URL final: GET /api/pedidos/usuario/:id
+router.get('/usuario/:id', async (req, res) => {
+  try {
+    //Extrair o ID do usuário da URL
+    const usuarioId = req.params.id
+
+    //Validar se o ID foi informado
+    if (!usuarioId) {
+      return res.status(400).json({ erro: 'ID do usuário é obrigatório' })
+    }
+
+    //Buscar todos os pedidos do usuário na tabela pedidos
+    const sqlPedidos = `
+    SELECT id, data_pedido, status, total
+    FROM pedidos
+    WHERE usuario_id = ?
+    ORDER BY data_pedido DESC
+`
+
+    const [pedidos] = await db.query(sqlPedidos, [usuarioId])
+
+    //Verificar se encontrou algum pedido
+    if (pedidos.length === 0) {
+      return res.status(404).json({ mensagem: 'Nenhum pedido encontrado para este usuário' })
+    }
+
+    //Buscar itens de cada pedido
+    for (const pedido of pedidos) {
+      const sqlItens = `
+        SELECT produto_nome, quantidade, preco_unitario, subtotal
+        FROM itens_pedido
+        WHERE pedido_id = ?
+    `
+
+      const [itensDoPedido] = await db.query(sqlItens, [pedido.id])
+      pedido.itens = itensDoPedido
+    }
+
+    //Retornar a lista de pedidos (ainda sem os itens - próximo bloco)
+    res.json(pedidos)
+
+  } catch (error) {
+    console.error('❌ Erro ao buscar pedidos:', error)
+    res.status(500).json({ erro: 'Erro interno do servidor' })
+  }
+})
+
+
+
+
 module.exports = router
 
 
