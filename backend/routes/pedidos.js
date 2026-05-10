@@ -95,7 +95,7 @@ router.get('/usuario/:id', async (req, res) => {
     const sqlPedidos = `
     SELECT id, data_pedido, status, total
     FROM pedidos
-    WHERE usuario_id = ?
+    WHERE usuario_id = ? AND ativo = 1
     ORDER BY data_pedido DESC
 `
 
