@@ -127,6 +127,45 @@ router.get('/usuario/:id', async (req, res) => {
   }
 })
 
+// Rota para Ocultar um pedido (exclusão lógica)
+// URL final: DELETE /api/pedidos/:id
+router.delete('/:id', async (req, res) => {
+  try {
+    // Extrair o ID do pedido da URL
+    const pedidoId = req.params.id
+
+    // Validar se o ID foi informado
+    if (!pedidoId) {
+      return res.status(400).json({ erro: 'ID do pedido é obrigatório' })
+    }
+
+    // Verificar se o pedido existe
+    const [pedidoExistente] = await db.query(
+      'SELECT id, ativo FROM pedidos WHERE id = ?',
+      [pedidoId]
+    )
+
+    if (pedidoExistente.length === 0) {
+      return res.status(404).json({ erro: 'Pedido não encontrado' })
+    }
+
+    // Verificar se o pedido já está oculto
+    if (pedidoExistente[0].ativo === 0) {
+      return res.status(400).json({ erro: 'Pedido já está oculto' })
+    }
+
+    //Ocultar o pedido (exclusão lógica)
+    await db.query('UPDATE pedidos SET ativo = 0 WHERE id = ?', [pedidoId])
+
+    // Retornar mensagem de sucesso
+    res.status(204).send()
+
+  } catch (error) {
+    console.error('❌ Erro ao ocultar pedido:', error)
+    res.status(500).json({ erro: 'Erro interno do servidor' })
+  }
+})
+
 
 
 
