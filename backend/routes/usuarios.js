@@ -63,4 +63,38 @@ router.post('/cadastro', async (req, res) => {
   }
 })
 
+// Rota para buscar dados de um usuário específico
+// URL final: GET /api/usuarios/:id
+router.get('/:id', async (req, res) => {
+  try {
+    // Extrair o ID do usuário da URL
+    const usuarioId = req.params.id
+
+    // Validar se o ID foi informado
+    if (!usuarioId) {
+      return res.status(400).json({ erro: 'ID do usuário é obrigatório' })
+    }
+
+    //Buscar o usuário no banco (excluindo a senha)
+    const [usuarios] = await db.query(
+      `SELECT id, nome, email, telefone, data_cadastro 
+             FROM usuarios 
+             WHERE id = ?`,
+      [usuarioId]
+    )
+
+    // Verificar se o usuário existe
+    if (usuarios.length === 0) {
+      return res.status(404).json({ erro: 'Usuário não encontrado' })
+    }
+
+    //  Retornar os dados do usuário
+    res.json(usuarios[0])
+
+  } catch (error) {
+    console.error('❌ Erro ao buscar usuário:', error)
+    res.status(500).json({ erro: 'Erro interno do servidor' })
+  }
+})
+
 module.exports = router
