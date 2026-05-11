@@ -2,7 +2,7 @@ import { useState } from "react"
 import { Link, NavLink } from "react-router-dom"
 import { CiBeerMugFull } from "react-icons/ci"
 import { HiMenu, HiX } from "react-icons/hi"
-import { BiUser } from "react-icons/bi"
+import { BiUser, BiEdit } from "react-icons/bi"
 import { useContext } from "react"
 import { Carrinho } from "./carrinho"
 import { CarrinhoContext } from "../context/carrinhoContext"
@@ -103,6 +103,14 @@ const Navbar = () => {
                             <p className="text-white font-bold">{usuario?.nome}</p>
                             <p className="text-gray-400 text-sm">{usuario?.telefone}</p>
                           </div>
+
+                          {/* Editar Perfil */}
+                          <Link to="/perfil" onClick={() => setIsPerfilOpen(false)} className="flex items-center gap-2 px-4 py-2 text-white hover:bg-gray-700 transition-colors">
+                            <BiEdit className="text-lg" />
+                            <span>Editar Perfil</span>
+                          </Link>
+
+                          {/* Botão Sair */}
                           <button
                             onClick={handleLogout}
                             className="w-full text-left px-4 py-3 text-red-400 hover:bg-gray-700 rounded-b-lg transition-colors"
@@ -204,6 +212,20 @@ const Navbar = () => {
                 </Link>
               </li>
             ))}
+
+            {/* Editar Perfil */}
+            {usuario?.nome && (
+              <li>
+                <Link
+                  to="/perfil"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="flex items-center gap-2 px-4 py-3 text-white hover:bg-gray-700 rounded-lg transition-colors"
+                >
+                  <BiEdit className="text-lg" />
+                  <span>Editar Perfil</span>
+                </Link>
+              </li>
+            )}
 
             {/* Botão Sair */}
             {usuario?.nome && (
