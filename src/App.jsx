@@ -14,6 +14,7 @@ import { Bebidas } from './components/bebidas'
 import { Footer } from './components/footer'
 import { MeusPedidos } from './components/meusPedidos'
 import { Cadastro } from './components/cadastro'
+import { Perfil } from './components/perfil'
 
 const Layout = () => {
   return (
@@ -64,6 +65,7 @@ const App = () => {
           <Route path="/combos" element={<Combos />} />
           <Route path="/bebidas" element={<Bebidas />} />
           <Route path="/meusPedidos" element={<MeusPedidos />} />
+          <Route path="/perfil" element={<Perfil />} />
         </Route>
 
       </>
