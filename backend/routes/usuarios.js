@@ -97,4 +97,68 @@ router.get('/:id', async (req, res) => {
   }
 })
 
+
+// Rota para atualizar dados de um usuário
+// URL final: PUT /api/usuarios/:id
+router.put('/:id', async (req, res) => {
+  try {
+    // Extrair o ID da URL
+    const usuarioId = req.params.id
+
+    // Extrair os dados do corpo da requisição
+    const { nome, email, telefone } = req.body
+
+    // Validar se o ID foi informado
+    if (!usuarioId) {
+      return res.status(400).json({ erro: 'ID do usuário é obrigatório' })
+    }
+
+    // Validar se pelo menos um campo foi enviado
+    if (!nome && !email && !telefone) {
+      return res.status(400).json({ erro: 'Nenhum dado para atualizar' })
+    }
+
+    // Verificar se o usuário existe
+    const [usuarios] = await db.query(
+      'SELECT id FROM usuarios WHERE id = ?',
+      [usuarioId]
+    )
+
+    if (usuarios.length === 0) {
+      return res.status(404).json({ erro: 'Usuário não encontrado' })
+    }
+
+    // Construir a query de atualização (apenas campos enviados)
+    const updates = []
+    const valores = []
+
+    const adicionarCampo = (campo) => {
+      if (req.body[campo]) {
+        updates.push(`${campo} = ?`)
+        valores.push(req.body[campo])
+      }
+    }
+
+    adicionarCampo('nome')
+    adicionarCampo('email')
+    adicionarCampo('telefone')
+
+    // Adicionar o ID no final dos valores
+    valores.push(usuarioId)
+    const sql = `UPDATE usuarios SET ${updates.join(', ')} WHERE id = ?`
+
+    // Executar a atualização
+    await db.query(sql, valores)
+
+    // Retornar sucesso
+    res.status(200).json({
+      mensagem: 'Usuário atualizado com sucesso'
+    })
+
+  } catch (error) {
+    console.error('❌ Erro ao atualizar usuário:', error)
+    res.status(500).json({ erro: 'Erro interno do servidor' })
+  }
+})
+
 module.exports = router
