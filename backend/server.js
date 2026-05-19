@@ -40,7 +40,9 @@ app.use('/api/login', loginRoutes)
 const pedidosRoutes = require('./routes/pedidos')
 app.use('/api/pedidos', pedidosRoutes)
 
-
+//Admin
+const adminRoutes = require('./routes/admin')
+app.use('/api/admin', adminRoutes)
 
 app.listen(PORT, () => {
   console.log(`🚀 Servidor rodando em: http://localhost:${PORT}`)
