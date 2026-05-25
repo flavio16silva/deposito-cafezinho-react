@@ -5,6 +5,8 @@ const AdminPedidos = () => {
   const [pedidos, setPedidos] = useState([])
   const [carregando, setCarregando] = useState(true)
   const [erro, setErro] = useState('')
+  const [filtroId, setFiltroId] = useState('')
+  const [filtroStatus, setFiltroStatus] = useState('')
 
   useEffect(() => {
     const buscarPedidos = async () => {
@@ -37,6 +39,17 @@ const AdminPedidos = () => {
     buscarPedidos()
   }, [])
 
+  // Fitrar pedidos pelo Id e status
+  const pedidosFiltrados = pedidos.filter(pedido => {
+    //Filtro Id
+    const matchId = filtroId === '' || pedido.id.toString().includes(filtroId)
+
+    //Filtro Status
+    const matchStatus = filtroStatus === '' || pedido.status === filtroStatus
+
+    return matchId && matchStatus
+
+  })
 
   // FUNÇÃO PARA ATUALIZAR STATUS DO PEDIDO  
   const atualizarStatus = async (pedidoId, novoStatus) => {
@@ -92,10 +105,44 @@ const AdminPedidos = () => {
           </div>
         )}
 
+        {/*Pesquisar pedidos*/}
+        <div className="mb-4 flex flex-col sm:flex-row gap-3">
+          <input
+            type="text"
+            placeholder="🔍 Buscar pedido pelo número..."
+            value={filtroId}
+            onChange={(e) => setFiltroId(e.target.value)}
+            className="w-full md:w-96 bg-gray-800 border border-gray-700 rounded-lg py-2 px-4 text-white focus:outline-none focus:border-amber-500"
+          />
+
+          <select
+            value={filtroStatus}
+            onChange={(e) => setFiltroStatus(e.target.value)}
+            className="w-full sm:w-48 bg-gray-800 border border-gray-700 rounded-lg py-2 px-4 text-white focus:outline-none focus:border-amber-500"
+          >
+            <option value="">📋 Todos os status</option>
+            <option value="pendente">📌 Pendente</option>
+            <option value="preparando">👨‍🍳 Preparando</option>
+            <option value="entregue">✅ Entregue</option>
+          </select>
+
+          {filtroId || filtroStatus && (
+            <button
+              onClick={() => {
+                setFiltroId('')
+                setFiltroStatus('')
+              }}
+              className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors font-medium shadow-md"
+            >
+              ✕ Limpar Filtros
+            </button>
+          )}
+        </div>
+
         {/* Exibir lista de pedidos */}
-        {!carregando && !erro && pedidos.length > 0 && (
+        {!carregando && !erro && pedidosFiltrados.length > 0 && (
           <div className="space-y-4">
-            {pedidos.map((pedido) => (
+            {pedidosFiltrados.map((pedido) => (
               <div key={pedido.id} className="bg-gray-800 rounded-lg p-4">
                 {/* Cabeçalho do card */}
                 <div className="flex justify-between items-start border-b border-gray-700 pb-2 mb-2">
@@ -160,13 +207,26 @@ const AdminPedidos = () => {
         )}
 
         {/* Exibir lista de pedidos */}
-        {!carregando && !erro && pedidos.length === 0 && (
+        {!carregando && !erro && pedidosFiltrados.length === 0 && (
           <div className="bg-gray-800 rounded-lg p-8 text-center">
             <span className="text-6xl mb-4 block">📦</span>
             <p className="text-gray-400 text-lg">Nenhum pedido encontrado</p>
             <p className="text-gray-500 text-sm mt-2">
               Aguardando novos pedidos dos clientes
             </p>
+          </div>
+        )}
+
+        {!carregando && !erro && pedidos.length > 0 && pedidosFiltrados.length === 0 && (
+          <div className="bg-gray-800 rounded-lg p-8 text-center">
+            <span className="text-6xl mb-4 block">🔍</span>
+            <p className="text-gray-400 text-lg">Nenhum pedido encontrado com o ID {filtroId}</p>
+            <button
+              onClick={() => setFiltroId('')}
+              className="mt-4 text-amber-400 hover:text-amber-300 transition-colors"
+            >
+              Limpar busca
+            </button>
           </div>
         )}
       </div>
