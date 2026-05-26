@@ -62,7 +62,9 @@ const AdminPedidos = () => {
 
   //Calcular total de pedidos e valor total
   const totalPedidosHoje = pedidosHoje.length
+
   const valorTotalHoje = pedidosHoje.reduce((soma, pedido) => soma + Number(pedido.total), 0)
+
   const ticketMedioHoje = totalPedidosHoje > 0 ? valorTotalHoje / totalPedidosHoje : 0
 
 
@@ -120,6 +122,13 @@ const AdminPedidos = () => {
             Carregando pedidos...
           </div>
         )}
+
+        {/* Data atual */}
+        <div className="flex justify-between items-center mb-4">
+          <p className="text-gray-400 text-sm">
+            📅 {new Date().toLocaleDateString('pt-BR')}
+          </p>
+        </div>
 
         {/* Card de totais do dia */}
         {!carregando && !erro && pedidos.length > 0 && (
