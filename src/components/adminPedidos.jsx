@@ -176,6 +176,7 @@ const AdminPedidos = () => {
             <option value="pendente">📌 Pendente</option>
             <option value="preparando">👨‍🍳 Preparando</option>
             <option value="entregue">✅ Entregue</option>
+            <option value="cancelado">❌ Cancelado</option>
           </select>
 
           {(filtroId || filtroStatus) && (
@@ -211,6 +212,7 @@ const AdminPedidos = () => {
                             ${pedido.status === 'pendente' ? 'bg-yellow-500 text-yellow-900' : ''}
                             ${pedido.status === 'preparando' ? 'bg-blue-500 text-blue-900' : ''}
                             ${pedido.status === 'entregue' ? 'bg-green-500 text-green-900' : ''}
+                            ${pedido.status === 'cancelado' ? 'bg-red-500 text-red-900' : ''}
                         `}>
                       {pedido.status}
                     </span>
@@ -241,7 +243,7 @@ const AdminPedidos = () => {
                   </span>
                 </div>
 
-                {/* Botão para alterar status */}
+                {/* Botão para alterar status - Dentro do Card */}
                 <div className="mt-3">
                   <select
                     value={pedido.status}
@@ -251,6 +253,7 @@ const AdminPedidos = () => {
                     <option value="pendente">📌 Pendente</option>
                     <option value="preparando">👨‍🍳 Preparando</option>
                     <option value="entregue">✅ Entregue</option>
+                    <option value="cancelado">❌ Cancelado</option>
                   </select>
                 </div>
               </div>

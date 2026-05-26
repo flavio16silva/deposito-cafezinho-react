@@ -52,10 +52,10 @@ router.put('/pedidos/:id/status', async (req, res) => {
     //Extrair o novo status do corpo da requisição
     const { status } = req.body
 
-    // //Validar se o status foi informado
-    // if (!status) {
-    //   return res.status(400).json({ erro: 'Status é obrigatório' })
-    // }
+    const statusPermitidos = ['pendente', 'preparando', 'entregue', 'cancelado']
+    if (!statusPermitidos.includes(status)) {
+      return res.status(400).json({ erro: 'Status inválido' })
+    }
 
     //Verificar se o pedido existe
     const [pedido] = await db.query(
