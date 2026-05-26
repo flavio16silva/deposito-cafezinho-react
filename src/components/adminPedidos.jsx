@@ -51,6 +51,22 @@ const AdminPedidos = () => {
 
   })
 
+  //Calcular Totais do dia
+  const hoje = new Date().toLocaleDateString('pt-BR')
+
+  //Filtrar pedidos do dia 
+  const pedidosHoje = pedidos.filter(pedido => {
+    const dataPedido = new Date(pedido.data_pedido).toLocaleDateString('pt-BR')
+    return dataPedido === hoje
+  })
+
+  //Calcular total de pedidos e valor total
+  const totalPedidosHoje = pedidosHoje.length
+  const valorTotalHoje = pedidosHoje.reduce((soma, pedido) => soma + Number(pedido.total), 0)
+  const ticketMedioHoje = totalPedidosHoje > 0 ? valorTotalHoje / totalPedidosHoje : 0
+
+
+
   // FUNÇÃO PARA ATUALIZAR STATUS DO PEDIDO  
   const atualizarStatus = async (pedidoId, novoStatus) => {
     try {
@@ -105,20 +121,47 @@ const AdminPedidos = () => {
           </div>
         )}
 
+        {/* Card de totais do dia */}
+        {!carregando && !erro && pedidos.length > 0 && (
+          <div className="grid grid-cols-3 gap-2 sm:gap-4 mb-6">
+            {/* Card 1: Total de Pedidos */}
+            <div className="bg-gray-800 rounded-lg p-2 sm:p-4 text-center">
+              <p className="text-gray-400 text-xs sm:text-sm">📋 Pedidos</p>
+              <p className="text-xl sm:text-3xl font-bold text-white">{totalPedidosHoje}</p>
+            </div>
+
+            {/* Card 2: Valor Total */}
+            <div className="bg-gray-800 rounded-lg p-2 sm:p-4 text-center">
+              <p className="text-gray-400 text-xs sm:text-sm">💰 Total</p>
+              <p className="text-sm sm:text-3xl font-bold text-amber-400">
+                R$ {valorTotalHoje.toFixed(2)}
+              </p>
+            </div>
+
+            {/* Card 3: Ticket Médio */}
+            <div className="bg-gray-800 rounded-lg p-2 sm:p-4 text-center">
+              <p className="text-gray-400 text-xs sm:text-sm">🎫 Ticket</p>
+              <p className="text-sm sm:text-3xl font-bold text-green-400">
+                R$ {ticketMedioHoje.toFixed(2)}
+              </p>
+            </div>
+          </div>
+        )}
+
         {/*Pesquisar pedidos*/}
-        <div className="mb-4 flex flex-col sm:flex-row gap-3">
+        <div className="mb-4 flex flex-wrap gap-2">
           <input
             type="text"
             placeholder="🔍 Buscar pedido pelo número..."
             value={filtroId}
             onChange={(e) => setFiltroId(e.target.value)}
-            className="w-full md:w-96 bg-gray-800 border border-gray-700 rounded-lg py-2 px-4 text-white focus:outline-none focus:border-amber-500"
+            className="flex-1 min-w-30 bg-gray-800 border border-gray-700 rounded-lg py-2 px-3 text-white text-sm focus:outline-none focus:border-amber-500"
           />
 
           <select
             value={filtroStatus}
             onChange={(e) => setFiltroStatus(e.target.value)}
-            className="w-full sm:w-48 bg-gray-800 border border-gray-700 rounded-lg py-2 px-4 text-white focus:outline-none focus:border-amber-500"
+            className="flex-1 min-w-30 bg-gray-800 border border-gray-700 rounded-lg py-2 px-3 text-white text-sm focus:outline-none focus:border-amber-500"
           >
             <option value="">📋 Todos os status</option>
             <option value="pendente">📌 Pendente</option>
@@ -126,13 +169,13 @@ const AdminPedidos = () => {
             <option value="entregue">✅ Entregue</option>
           </select>
 
-          {filtroId || filtroStatus && (
+          {(filtroId || filtroStatus) && (
             <button
               onClick={() => {
                 setFiltroId('')
                 setFiltroStatus('')
               }}
-              className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors font-medium shadow-md"
+              className="px-3 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors font-medium shadow-md"
             >
               ✕ Limpar Filtros
             </button>
