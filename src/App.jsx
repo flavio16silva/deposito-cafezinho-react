@@ -15,6 +15,7 @@ import { Footer } from './components/footer'
 import { MeusPedidos } from './components/meusPedidos'
 import { Cadastro } from './components/cadastro'
 import { Perfil } from './components/perfil'
+import { AdminGuard } from './components/AdminGuard'
 import { AdminPedidos } from './components/adminPedidos'
 
 const Layout = () => {
@@ -67,7 +68,11 @@ const App = () => {
           <Route path="/bebidas" element={<Bebidas />} />
           <Route path="/meusPedidos" element={<MeusPedidos />} />
           <Route path="/perfil" element={<Perfil />} />
-          <Route path='/admin' element={<AdminPedidos />} />
+          <Route path='/admin' element={
+            <AdminGuard>
+              <AdminPedidos />
+            </AdminGuard>
+          } />
         </Route>
 
       </>
