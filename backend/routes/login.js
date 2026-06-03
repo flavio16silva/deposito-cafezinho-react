@@ -15,7 +15,7 @@ router.post('/', async (req, res) => {
 
     //Buscar usuário pelo telefone
     const [usuarios] = await db.query(
-      'SELECT id, nome, telefone, email, senha, data_cadastro FROM usuarios WHERE telefone = ?', [telefone]
+      'SELECT id, nome, telefone, email, senha, data_cadastro, role FROM usuarios WHERE telefone = ?', [telefone]
     )
 
     //Verificar se o usuário foi encontrado
@@ -37,7 +37,8 @@ router.post('/', async (req, res) => {
         nome: usuario.nome,
         email: usuario.email,
         telefone: usuario.telefone,
-        data_cadastro: usuario.data_cadastro
+        data_cadastro: usuario.data_cadastro,
+        role: usuario.role
       }
     })
 

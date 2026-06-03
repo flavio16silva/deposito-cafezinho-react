@@ -1,8 +1,8 @@
 // Importa os hooks necessários
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { useContext } from 'react'
-import { CarrinhoContext } from '../context/carrinhoContext'
+// import { useContext } from 'react'
+// import { CarrinhoContext } from '../context/carrinhoContext'
 import { toast } from 'react-toastify'
 
 const Login = () => {
@@ -10,15 +10,7 @@ const Login = () => {
   const [celular, setCelular] = useState('')
   const [senha, setSenha] = useState('')
 
-  // useEffect(() => {
-  //   const mensagem = localStorage.getItem('mensagemLogin')
-  //   if (mensagem) {
-  //     toast.info(mensagem)
-  //     localStorage.removeItem('mensagemLogin')
-  //   }
-  // }, [])
-
-  const { adicionar } = useContext(CarrinhoContext)
+  // const { adicionar } = useContext(CarrinhoContext)
 
   // Estados para controlar o foco dos campos (placeholder sobe)
   const [focoCelular, setFocoCelular] = useState(false)
@@ -37,84 +29,71 @@ const Login = () => {
     } else if (numeros.length <= 3) {
       celularFormatado = `(${numeros.slice(0, 2)}) ${numeros.slice(2)}`
     } else if (numeros.length <= 7) {
-      celularFormatado = `(${numeros.slice(0, 2)}) ${numeros.slice(2, 3)} ${numeros.slice(3)}`
+      celularFormatado = `(${numeros.slice(0, 2)}) ${numeros.slice(2, 3)}${numeros.slice(3)}`
     } else {
-      celularFormatado = `(${numeros.slice(0, 2)}) ${numeros.slice(2, 3)} ${numeros.slice(3, 7)}-${numeros.slice(7, 11)}`
+      celularFormatado = `(${numeros.slice(0, 2)}) ${numeros.slice(2, 3)}${numeros.slice(3, 7)}-${numeros.slice(7, 11)}`
     }
 
     return celularFormatado
   }
 
-  // Função para processar o login
-  const handleLogin = () => {
+  // ============================================================
+  // FUNÇÃO PARA PROCESSAR O LOGIN (CHAMANDO O BACKEND)
+  // ============================================================
+  const handleLogin = async () => {
     // Verifica se os campos estão preenchidos
-    // if (!celular || !senha) {
-    //   toast.warning('Preencha todos os campos')
-    //   return
-    // }
-
-    // Busca usuário na lista de cadastrados
-    const usuariosCadastrados = JSON.parse(localStorage.getItem('usuariosCadastrados') || '[]')
-    const usuario = usuariosCadastrados.find(u => u.telefone === celular)
-
-    if (!usuario) {
-      toast.warning('Usuário não encontrado! Faça seu cadastro primeiro.')
+    if (!celular || !senha) {
+      toast.warning('Preencha todos os campos')
       return
     }
 
-    // Verifica se o celular e senha correspondem
-    if (usuario.telefone === celular && usuario.senha === senha) {
-      localStorage.setItem('logado', 'true') // Marca como logado
-      toast.success(`✅ Bem-vindo(a) de volta, ${usuario.nome}!`)
+    try {
+      console.log('Enviando:', { telefone: celular, senha: senha })
+      // 1. Chamar o backend
+      const response = await fetch('http://localhost:3001/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          telefone: celular,
+          senha: senha
+        })
+      })
 
-      // Salva os dados do usuário logado
+      const data = await response.json()
+
+      // 2. Verificar se deu certo
+      if (!response.ok) {
+        toast.error(data.erro || 'Erro ao fazer login')
+        return
+      }
+
+      // 3. Login bem-sucedido
+      toast.success(data.mensagem)
+
+      // 4. Salvar usuário logado
       const usuarioLogado = {
-        nome: usuario.nome,
-        telefone: celular,
-        email: usuario.email,
-        senha: senha
+        id: data.usuario.id,
+        nome: data.usuario.nome,
+        email: data.usuario.email,
+        telefone: data.usuario.telefone,
+        role: data.usuario.role
       }
       localStorage.setItem('usuarioLogado', JSON.stringify(usuarioLogado))
       localStorage.setItem('logado', 'true')
 
-      // MIGRA PEDIDOS ANTIGOS (se existirem)
-      const pedidosAntigos = localStorage.getItem('pedidos')
-      if (pedidosAntigos) {
-        const chavePedidos = `pedidos_${celular}`
-        const pedidosExistentes = JSON.parse(localStorage.getItem(chavePedidos) || '[]')
-        const pedidosParaMigrar = JSON.parse(pedidosAntigos)
-
-        // Junta os pedidos antigos com os existentes
-        const todosPedidos = [...pedidosExistentes, ...pedidosParaMigrar]
-
-        // Salva na nova chave
-        localStorage.setItem(chavePedidos, JSON.stringify(todosPedidos))
-
-        // Remove a chave antiga
-        localStorage.removeItem('pedidos')
+      // 5. Se for admin, salvar também no localStorage do admin
+      if (data.usuario.role === 'admin') {
+        localStorage.setItem('admin_logado', 'true')
       }
 
-      // Verifica se tinha carrinho pendente antes do login
-      const carrinhoPendente = localStorage.getItem('carrinhoPendente')
-
-      if (carrinhoPendente) {
-        // Recupera os itens do carrinho pendente
-        const itensPendentes = JSON.parse(carrinhoPendente)
-
-        // Adiciona cada item ao carrinho atual
-        itensPendentes.forEach(item => {
-          adicionar(item)
-        })
-
-        // Remove o carrinho pendente (já foi recuperado)
-        localStorage.removeItem('carrinhoPendente')
-
-        toast.success('🛒 Seu carrinho foi restaurado! Continue seu pedido.')
-      }
-
+      // 6. Redirecionar para o cardápio
       navigate('/salgados')
-    } else {
-      toast.error('❌ Celular ou senha incorretos!')
+
+    } catch (error) {
+      console.error('Erro no login:', error)
+      toast.error('Erro ao conectar com o servidor')
     }
   }
 
@@ -128,7 +107,6 @@ const Login = () => {
           <h2 className="text-2xl font-bold text-amber-400">Cafezinho</h2>
           <p className="text-gray-400 text-sm mt-2">Faça seu login</p>
         </div>
-
 
         <div className="backdrop-blur-md rounded-2xl p-8 
                 border border-gray-600 shadow-lg
@@ -221,7 +199,6 @@ const Login = () => {
             </div>
 
           </div>
-
         </div>
 
       </div>
