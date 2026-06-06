@@ -88,8 +88,8 @@ const Login = () => {
         localStorage.setItem('admin_logado', 'true')
       }
 
-      // 6. Redirecionar para o cardápio
-      navigate('/salgados')
+      // 6. Redirecionar para o painel de admin ou para cardápio
+      navigate(data.usuario.role === 'admin' ? '/admin' : '/salgados')
 
     } catch (error) {
       console.error('Erro no login:', error)
