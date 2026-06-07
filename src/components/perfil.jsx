@@ -1,12 +1,31 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import { FiSave } from 'react-icons/fi'
 
 const Perfil = () => {
   const [usuario, setUsuario] = useState(null)
   const [carregando, setCarregando] = useState(true)
   const [erro, setErro] = useState('')
   const navigate = useNavigate()
+
+  // Máscara para telefone (mesma do cadastro)
+  const mascaraCelular = (valor) => {
+    const numeros = valor.replace(/\D/g, '')
+
+    let celularFormatado = ''
+    if (numeros.length <= 2) {
+      celularFormatado = numeros
+    } else if (numeros.length <= 3) {
+      celularFormatado = `(${numeros.slice(0, 2)}) ${numeros.slice(2)}`
+    } else if (numeros.length <= 7) {
+      celularFormatado = `(${numeros.slice(0, 2)}) ${numeros.slice(2, 3)}${numeros.slice(3)}`
+    } else {
+      celularFormatado = `(${numeros.slice(0, 2)}) ${numeros.slice(2, 3)}${numeros.slice(3, 7)}-${numeros.slice(7, 11)}`
+    }
+
+    return celularFormatado
+  }
 
   // BUSCAR DADOS DO USUÁRIO AO CARREGAR A PÁGINA
   const carregarPerfil = async () => {
@@ -49,6 +68,22 @@ const Perfil = () => {
 
     try {
       setCarregando(true)
+
+      // Validação do email
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+      if (!emailRegex.test(usuario.email)) {
+        toast.warning('Por favor, digite um e-mail válido')
+        setCarregando(false)
+        return
+      }
+
+      // Validar telefone
+      const numerosTelefone = usuario.telefone.replace(/\D/g, '')
+      if (numerosTelefone.length < 10) {
+        toast.warning('Digite um telefone válido com DDD + número')
+        setCarregando(false)
+        return
+      }
 
       //Recuperar o ID do usuário logado
       const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'))
@@ -148,7 +183,7 @@ const Perfil = () => {
           <h1 className="text-xl font-bold text-white text-center">
             Meus Dados
           </h1>
-          <div className="w-16"></div> {/* Espaço para equilibrar */}
+          <div className="w-16"></div>
         </div>
 
         {/* Formulário */}
@@ -190,7 +225,10 @@ const Perfil = () => {
             <input
               type="tel"
               value={usuario.telefone}
-              onChange={(e) => setUsuario({ ...usuario, telefone: e.target.value })}
+              onChange={(e) => setUsuario({
+                ...usuario, telefone:
+                  mascaraCelular(e.target.value)
+              })}
               className="w-full bg-gray-800 border border-gray-700 rounded-lg py-3 px-4 text-white focus:outline-none focus:border-amber-500 transition-colors"
               required
             />

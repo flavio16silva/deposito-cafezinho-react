@@ -31,12 +31,7 @@ const Carrinho = () => {
   }
 
   // Finalizar o pedido
-  const finalizarPedido = () => {
-    // if (itens.length === 0) {
-    //   toast.warning("⚠️ Carrinho vazio! Adicione itens antes de finalizar.")
-    //   return
-    // }
-
+  const finalizarPedido = async () => {
     // Verifica se o usuário está logado
     const logado = localStorage.getItem('logado') === 'true'
 
@@ -50,77 +45,91 @@ const Carrinho = () => {
         window.location.href = '/login'
       }, 2500)
 
-      // alert('🔒 Faça login para finalizar seu pedido!')
-      // window.location.href = '/login'
       return
     }
 
     // Busca o usuário logado
     const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado') || '{}')
-    const chavePedidos = `pedidos_${usuarioLogado.telefone}`
 
-    // Pega a lista de pedidos deste usuário
-    const pedidosSalvos = JSON.parse(localStorage.getItem(chavePedidos) || "[]")
+    try {
+      const itensParaEnviar = itens.map(item => ({
+        // Formatar itens para o backend
+        produto_nome: item.nome,
+        quantidade: item.quantidade,
+        preco_unitario: item.precoUnitario,
+        subtotal: item.total
+      }))
 
-    // Cria um novo pedido com data atual
-    const novoPedido = {
-      id: Date.now(),  //data em milissegundos
-      data: new Date().toISOString(),
-      itens: [...itens],
-      total: total,
-      status: "Entregue"
+      // Enviar para o backend
+      const response = await fetch('http://localhost:3001/api/pedidos', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          usuario_id: usuarioLogado.id,
+          itens: itensParaEnviar
+        })
+      })
+
+      const data = await response.json()
+
+      // Verificar se deu certo
+      if (!response.ok) {
+        throw new Error(data.erro || 'Erro ao salvar pedido')
+      }
+
+      // Limpar carrinho (já existia, mas mantém)
+      setItens([])
+      localStorage.removeItem('carrinhoPendente')
+
+      // Mensagem de sucesso
+      toast.success('Pedido realizado com sucesso!')
+
+
+      //ENVIA A MENSAGEM VIA WHATSAPP
+      const numeroWhatsApp = "5571993462490"
+
+      const usuario = JSON.parse(localStorage.getItem('usuarioLogado') || '{}')
+      const separador = "-".repeat(40)
+
+      let mensagem = " *NOVO PEDIDO - DEPÓSITO CAFEZINHO* \n\n"
+
+      mensagem += `👤 *Cliente:* ${usuario.nome || 'Cliente não identificado'}\n`
+      mensagem += `📞 *Telefone* ${usuario.telefone || 'Não informado'} \n\n`
+
+      mensagem += "📅 *Data do Pedido:* " + new Date().toLocaleString() + "\n\n"
+      mensagem += "*🛒 ITENS DO PEDIDO:*\n"
+      mensagem += `${separador}\n\n`
+
+      itens.forEach((item, index) => {
+        mensagem += `${index + 1}. ${item.nome}\n`
+        mensagem += `   📦 Quantidade: ${item.quantidade} und\n`
+        mensagem += `   💰 Subtotal: R$ ${item.total.toFixed(2)}\n\n`
+      })
+
+      mensagem += `${separador}\n\n`
+      mensagem += `💰 *TOTAL DO PEDIDO:* R$ ${total.toFixed(2)}\n\n`
+      mensagem += "✨ Agradecemos pela preferência! ✨"
+
+
+      // Codifica a mensagem e monta a URL do WhatsApp
+      const mensagemCodificada = encodeURIComponent(mensagem)
+      const urlWhatsApp = `https://api.whatsapp.com/send/?phone=${numeroWhatsApp}&text=${mensagemCodificada}&type=phone_number&app_absent=0`
+
+
+      toast.success("✅ Pedido preparado! O WhatsApp vai abrir para você confirmar o envio.", {
+        autoClose: 5000,
+        onClose: () => window.open(urlWhatsApp, '_blank')
+      })
+
+      setPedidoEnviado(true)
+
+      // Limpa o carrinho pendente (se existir)
+      localStorage.removeItem('carrinhoPendente')
+
+    } catch (error) {
+      console.error('Erro ao finalizar pedido:', error)
+      toast.error(error.message)
     }
-
-    // Adiciona o novo pedido à lista
-    pedidosSalvos.push(novoPedido)
-
-    // Salva no localStorage com chave do usuário
-    localStorage.setItem(chavePedidos, JSON.stringify(pedidosSalvos))
-
-    //ENVIA A MENSAGEM VIA WHATSAPP
-    const numeroWhatsApp = "5571993462490"
-
-    const usuario = JSON.parse(localStorage.getItem('usuarioLogado') || '{}')
-    const separador = "-".repeat(40)
-
-    let mensagem = " *NOVO PEDIDO - DEPÓSITO CAFEZINHO* \n\n"
-
-    mensagem += `👤 *Cliente:* ${usuario.nome || 'Cliente não identificado'}\n`
-    mensagem += `📞 *Telefone* ${usuario.telefone || 'Não informado'} \n\n`
-
-    mensagem += "📅 *Data do Pedido:* " + new Date().toLocaleString() + "\n\n"
-    mensagem += "*🛒 ITENS DO PEDIDO:*\n"
-    mensagem += `${separador}\n\n`
-
-    itens.forEach((item, index) => {
-      mensagem += `${index + 1}. ${item.nome}\n`
-      mensagem += `   📦 Quantidade: ${item.quantidade} und\n`
-      mensagem += `   💰 Subtotal: R$ ${item.total.toFixed(2)}\n\n`
-    })
-
-    mensagem += `${separador}\n\n`
-    mensagem += `💰 *TOTAL DO PEDIDO:* R$ ${total.toFixed(2)}\n\n`
-    mensagem += "✨ Agradecemos pela preferência! ✨"
-
-
-    // Codifica a mensagem e monta a URL do WhatsApp
-    const mensagemCodificada = encodeURIComponent(mensagem)
-    const urlWhatsApp = `https://api.whatsapp.com/send/?phone=${numeroWhatsApp}&text=${mensagemCodificada}&type=phone_number&app_absent=0`
-
-
-    toast.success("✅ Pedido preparado! O WhatsApp vai abrir para você confirmar o envio.", {
-      autoClose: 5000,
-      onClose: () => window.open(urlWhatsApp, '_blank')
-    })
-
-
-    // window.open(urlWhatsApp, '_blank')
-    //window.location.href = urlWhatsApp
-    setItens([])
-    setPedidoEnviado(true)
-
-    // Limpa o carrinho pendente (se existir)
-    localStorage.removeItem('carrinhoPendente')
 
   }
 
