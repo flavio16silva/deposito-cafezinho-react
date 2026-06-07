@@ -22,12 +22,7 @@ const Cadastro = () => {
   }
 
   // Função para processar o cadastro
-  const handleCadastro = () => {
-    // Verifica se todos os campos estão preenchidos
-    // if (!nome || !telefone || !email || !senha) {
-    //   alert('Por favor, preencha todos os campos')
-    //   return
-    // }
+  const handleCadastro = async () => {
 
     // Verifica se o email é válido
     if (!validarEmail(email)) {
@@ -41,39 +36,51 @@ const Cadastro = () => {
       return
     }
 
-    // Simula o cadastro (salva no localStorage)
-    const usuario = {
-      nome: nome,
-      telefone: telefone,
-      email: email,
-      senha: senha,
-      dataCadastro: new Date().toISOString()
+    try {
+      // 1. Enviar dados para o backend
+      const response = await fetch('http://localhost:3001/api/usuarios/cadastro', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          nome: nome,
+          email: email,
+          telefone: telefone,
+          senha: senha
+        })
+      })
+
+      const data = await response.json()
+
+      // 2. Verificar se deu certo
+      if (!response.ok) {
+        toast.error(data.erro || 'Erro no cadastro')
+        return
+      }
+
+      // 3. Cadastro bem-sucedido
+      toast.success(data.mensagem)
+
+      // 4. Salvar usuário logado (com ID vindo do backend)
+      const usuarioLogado = {
+        id: data.usuario.id,
+        nome: nome,
+        email: email,
+        telefone: telefone
+      }
+      localStorage.setItem('usuarioLogado', JSON.stringify(usuarioLogado))
+      localStorage.setItem('logado', 'true')
+
+      // 5. Redirecionar para o cardápio após 2 segundos
+      setTimeout(() => {
+        window.location.href = '/salgados'
+      }, 2000)
+
+    } catch (error) {
+      console.error('Erro no cadastro:', error)
+      toast.error('Erro ao conectar com o servidor')
     }
-
-    // Pega a lista de usuários cadastrados
-    const usuariosCadastrados = JSON.parse(localStorage.getItem('usuariosCadastrados') || '[]')
-
-    // Adiciona o novo usuário
-    usuariosCadastrados.push(usuario)
-
-    // Salva a lista completa
-    localStorage.setItem('usuariosCadastrados', JSON.stringify(usuariosCadastrados))
-
-    // Salva o usuário atual (logado)
-    localStorage.setItem('usuarioLogado', JSON.stringify(usuario))
-
-    // Marca como logado
-    localStorage.setItem('logado', 'true')
-
-    // Mostra mensagem de sucesso
-    toast.success(`✅ Cadastro realizado! Bem-vindo(a), ${nome}!`)
-
-    setTimeout(() => {
-      window.location.href = '/salgados'
-    }, 2500)
-
-    // Redireciona para o cardápio
-    // window.location.href = '/salgados'
   }
 
   return (
@@ -144,9 +151,9 @@ const Cadastro = () => {
                 } else if (numeros.length <= 3) {
                   telefoneFormatado = `(${numeros.slice(0, 2)}) ${numeros.slice(2)}`
                 } else if (numeros.length <= 7) {
-                  telefoneFormatado = `(${numeros.slice(0, 2)}) ${numeros.slice(2, 3)} ${numeros.slice(3)}`
+                  telefoneFormatado = `(${numeros.slice(0, 2)}) ${numeros.slice(2, 3)}${numeros.slice(3)}`
                 } else {
-                  telefoneFormatado = `(${numeros.slice(0, 2)}) ${numeros.slice(2, 3)} ${numeros.slice(3, 7)}-${numeros.slice(7, 11)}`
+                  telefoneFormatado = `(${numeros.slice(0, 2)}) ${numeros.slice(2, 3)}${numeros.slice(3, 7)}-${numeros.slice(7, 11)}`
                 }
 
                 setTelefone(telefoneFormatado)
