@@ -1,21 +1,49 @@
 import { Link } from "react-router-dom"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { ConfirmModal } from "./confirmModal"
 import { toast } from 'react-toastify'
 
 const MeusPedidos = () => {
+
+  const [pedidos, setPedidos] = useState([])
+  const [carregando, setCarregando] = useState(true)
+  const [erro, setErro] = useState('')
+
   // Busca o usuário logado
   const usuario = JSON.parse(localStorage.getItem('usuarioLogado') || '{}')
-  const chavePedidos = `pedidos_${usuario.telefone}`
 
   //Modal Excluir Pedidos
   const [showConfirmModal, setShowConfirmModal] = useState(false)
   const [pedidoParaExcluir, setPedidoParaExcluir] = useState(null)
 
-  // Busca os pedidos deste usuário
-  const [pedidos, setPedidos] = useState(() => {
-    return JSON.parse(localStorage.getItem(chavePedidos) || "[]")
-  })
+  // Buscar pedidos do backend ao carregar a página
+  useEffect(() => {
+    const buscarPedidos = async () => {
+      if (!usuario.id) {
+        setCarregando(false)
+        return
+      }
+
+      try {
+        setCarregando(true)
+        const response = await fetch(`http://localhost:3001/api/pedidos/usuario/${usuario.id}`)
+
+        if (!response.ok) {
+          throw new Error('Erro ao carregar pedidos')
+        }
+
+        const dados = await response.json()
+        setPedidos(dados)
+      } catch (error) {
+        console.error('Erro:', error)
+        setErro(error.message)
+      } finally {
+        setCarregando(false)
+      }
+    }
+
+    buscarPedidos()
+  }, [usuario.id])
 
   // Função para formatar a data
   const formatarData = (dataISO) => {
@@ -41,7 +69,7 @@ const MeusPedidos = () => {
 
   const confirmarExclusaoTodos = () => {
     setPedidos([])
-    localStorage.setItem(chavePedidos, JSON.stringify([]))
+    // localStorage.setItem(chavePedidos, JSON.stringify([]))
     toast.success("🗑️ Todos os pedidos foram excluídos!")
     setShowConfirmModal(false)
   }
@@ -49,7 +77,7 @@ const MeusPedidos = () => {
   const confirmarExclusaoIndividual = () => {
     const novosPedidos = pedidos.filter(pedido => pedido.id !== pedidoParaExcluir)
     setPedidos(novosPedidos)
-    localStorage.setItem(chavePedidos, JSON.stringify(novosPedidos))
+    // localStorage.setItem(chavePedidos, JSON.stringify(novosPedidos))
     toast.info("📦 Pedido removido do histórico!")
     setPedidoParaExcluir(null)
   }
