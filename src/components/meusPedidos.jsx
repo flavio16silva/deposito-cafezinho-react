@@ -113,8 +113,22 @@ const MeusPedidos = () => {
           </Link>
         </div>
 
+        {/* Exibir mensagem de carregamento */}
+        {carregando && (
+          <div className="text-center text-gray-400 py-8">
+            Carregando pedidos...
+          </div>
+        )}
+
+        {/* Exibir mensagem de erro */}
+        {erro && (
+          <div className="bg-red-500 text-white p-4 rounded-lg mb-4">
+            Erro: {erro}
+          </div>
+        )}
+
         {/* Verifica se tem pedidos */}
-        {pedidos.length === 0 ? (
+        {!carregando && !erro && pedidos.length === 0 && (
           <div className="bg-gray-800 rounded-lg p-8 text-center">
             <p className="text-gray-400 text-lg">Nenhum pedido encontrado</p>
             <p className="text-gray-500 text-sm mt-2">
@@ -127,7 +141,9 @@ const MeusPedidos = () => {
               Fazer Pedido
             </Link>
           </div>
-        ) : (
+        )}
+
+        {!carregando && !erro && pedidos.length > 0 && (
           <div className="space-y-4">
             {pedidos.map((pedido) => (
               <div key={pedido.id} className="bg-gray-800 rounded-lg p-4">
