@@ -16,6 +16,25 @@ const MeusPedidos = () => {
   const [showConfirmModal, setShowConfirmModal] = useState(false)
   const [pedidoParaExcluir, setPedidoParaExcluir] = useState(null)
 
+  // Excluir pedidos no BACKEND
+  const excluirPedidoBackend = async (pedidoId) => {
+    try {
+      const response = await fetch(`http://localhost:3001/api/pedidos/${pedidoId}`, {
+        method: 'DELETE'
+      })
+
+      if (!response.ok) {
+        throw new Error('Erro ao excluir pedido')
+      }
+
+      return true
+    } catch (error) {
+      console.error('Erro:', error)
+      toast.error('Erro ao excluir pedido')
+      return false
+    }
+  }
+
   // Buscar pedidos do backend ao carregar a página
   useEffect(() => {
     const buscarPedidos = async () => {
@@ -67,18 +86,37 @@ const MeusPedidos = () => {
     setShowConfirmModal(true)
   }
 
-  const confirmarExclusaoTodos = () => {
-    setPedidos([])
-    // localStorage.setItem(chavePedidos, JSON.stringify([]))
-    toast.success("🗑️ Todos os pedidos foram excluídos!")
+  // CONFIRMAÇÃO DE EXCLUSÃO DE TODOS
+  const confirmarExclusaoTodos = async () => {
+    const resultados = await Promise.all(
+      pedidos.map(pedido => excluirPedidoBackend(pedido.id))
+    )
+
+    const todosExcluidos = resultados.every(resultado => resultado === true)
+
+    if (todosExcluidos) {
+      setPedidos([])
+      toast.success("🗑️ Todos os pedidos foram excluídos!")
+    } else {
+      toast.warning("Alguns pedidos não puderam ser excluídos")
+    }
+
     setShowConfirmModal(false)
   }
 
-  const confirmarExclusaoIndividual = () => {
-    const novosPedidos = pedidos.filter(pedido => pedido.id !== pedidoParaExcluir)
-    setPedidos(novosPedidos)
-    // localStorage.setItem(chavePedidos, JSON.stringify(novosPedidos))
-    toast.info("📦 Pedido removido do histórico!")
+  // CONFIRMAÇÃO DE EXCLUSÃO INDIVIDUAL
+  const confirmarExclusaoIndividual = async () => {
+    const sucesso = await excluirPedidoBackend(pedidoParaExcluir)
+
+    if (sucesso) {
+      const novosPedidos = pedidos.filter(pedido => pedido.id !== pedidoParaExcluir)
+
+      setPedidos(novosPedidos)
+      toast.success("📦 Pedido removido do histórico!")
+    }
+
+
+    // Fechar a modal
     setPedidoParaExcluir(null)
   }
 
