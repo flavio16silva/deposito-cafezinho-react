@@ -216,13 +216,13 @@ const MeusPedidos = () => {
                   {pedido.itens.map((item, idx) => (
                     <div key={idx} className="flex justify-between items-center">
                       <div>
-                        <p className="text-white text-sm">{item.nome}</p>
+                        <p className="text-white text-sm">{item.produto_nome}</p>
                         <p className="text-gray-400 text-xs">
                           {item.quantidade} und
                         </p>
                       </div>
                       <p className="text-amber-400 font-bold text-sm">
-                        R$ {item.total.toFixed(2)}
+                        R$ {Number(item.subtotal || 0).toFixed(2)}
                       </p>
                     </div>
                   ))}
@@ -232,7 +232,7 @@ const MeusPedidos = () => {
                 <div className="border-t border-gray-700 pt-2 mt-2 flex justify-between">
                   <span className="text-white font-bold">Total</span>
                   <span className="text-amber-400 font-bold text-lg">
-                    R$ {pedido.total.toFixed(2)}
+                    R$ {Number(pedido.total || 0).toFixed(2)}
                   </span>
                 </div>
               </div>
