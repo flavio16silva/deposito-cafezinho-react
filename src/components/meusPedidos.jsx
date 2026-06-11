@@ -47,12 +47,19 @@ const MeusPedidos = () => {
         setCarregando(true)
         const response = await fetch(`http://localhost:3001/api/pedidos/usuario/${usuario.id}`)
 
+        if (response.status === 404) {
+          setPedidos([])
+          setCarregando(false)
+          return
+        }
+
         if (!response.ok) {
           throw new Error('Erro ao carregar pedidos')
         }
 
         const dados = await response.json()
         setPedidos(dados)
+
       } catch (error) {
         console.error('Erro:', error)
         setErro(error.message)
