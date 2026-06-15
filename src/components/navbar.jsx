@@ -3,6 +3,7 @@ import { Link, NavLink } from "react-router-dom"
 import { CiBeerMugFull } from "react-icons/ci"
 import { HiMenu, HiX } from "react-icons/hi"
 import { BiUser, BiEdit } from "react-icons/bi"
+import { FaShieldAlt } from "react-icons/fa"
 import { useContext } from "react"
 import { Carrinho } from "./carrinho"
 import { CarrinhoContext } from "../context/carrinhoContext"
@@ -223,6 +224,20 @@ const Navbar = () => {
                 >
                   <BiEdit className="text-lg" />
                   <span>Editar Perfil</span>
+                </Link>
+              </li>
+            )}
+
+            {/* Painel Admin (só para admin) */}
+            {usuario?.role === 'admin' && (
+              <li>
+                <Link
+                  to="/admin"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="flex items-center gap-2 px-4 py-3 text-white hover:bg-gray-700 transition-colors rounded-lg"
+                >
+                  <FaShieldAlt className="text-lg" />
+                  <span>Painel Admin</span>
                 </Link>
               </li>
             )}
