@@ -4,7 +4,9 @@ const AdminGuard = ({ children }) => {
 
   const [senha, setSenha] = useState('')
   const [erro, setErro] = useState('')
-  const [autorizado, setAutorizado] = useState(false)
+  const [autorizado, setAutorizado] = useState(() => {
+    return localStorage.getItem('admin_logado') === 'true'
+  })
 
   const SENHA_ADMIN = import.meta.env.VITE_ADMIN_SENHA
 
