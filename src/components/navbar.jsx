@@ -111,6 +111,18 @@ const Navbar = () => {
                             <span>Editar Perfil</span>
                           </Link>
 
+                          {/* Painel Admin */}
+                          {usuario?.role === 'admin' && (
+                            <Link
+                              to="/admin"
+                              onClick={() => setIsPerfilOpen(false)}
+                              className="flex items-center gap-2 px-4 py-2 text-amber-400 hover:bg-gray-700 transition-colors border-t border-gray-700"
+                            >
+                              <FaShieldAlt className="text-lg" />
+                              <span>Painel Admin</span>
+                            </Link>
+                          )}
+
                           {/* Botão Sair */}
                           <button
                             onClick={handleLogout}
