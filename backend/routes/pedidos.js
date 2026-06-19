@@ -155,7 +155,16 @@ router.delete('/:id', async (req, res) => {
     }
 
     //Ocultar o pedido (exclusão lógica)
-    await db.query('UPDATE pedidos SET ativo = 0 WHERE id = ?', [pedidoId])
+    const usuarioLogado = 1
+
+    await db.query(
+      `UPDATE pedidos 
+      SET ativo = 0,
+      deletado_em = NOW(),
+      deletado_por = ?
+      WHERE id = ?`,
+      [usuarioLogado, pedidoId]
+    )
 
     // Retornar mensagem de sucesso
     res.status(204).send()
