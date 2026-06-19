@@ -60,6 +60,12 @@ const MeusPedidos = () => {
         const dados = await response.json()
         setPedidos(dados)
 
+        console.log('📦 Dados recebidos do backend:', dados)
+        if (dados.length > 0) {
+          console.log('📅 Data do primeiro pedido (campo data):', dados[0]?.data)
+          console.log('📅 Data do primeiro pedido (campo data_pedido):', dados[0]?.data_pedido)
+        }
+
       } catch (error) {
         console.error('Erro:', error)
         setErro(error.message)
@@ -73,7 +79,15 @@ const MeusPedidos = () => {
 
   // Função para formatar a data
   const formatarData = (dataISO) => {
+
+    if (!dataISO) {
+      return 'Data indisponível'
+    }
+
+
     const data = new Date(dataISO)
+    if (isNaN(data.getTime())) return "Data inválida"
+
     return data.toLocaleDateString("pt-BR", {
       day: "2-digit",
       month: "2-digit",
@@ -81,6 +95,7 @@ const MeusPedidos = () => {
       hour: "2-digit",
       minute: "2-digit"
     })
+
   }
 
   // Função para excluir um pedido específico
@@ -200,7 +215,7 @@ const MeusPedidos = () => {
                       Pedido #{pedido.id}
                     </p>
                     <p className="text-gray-400 text-xs">
-                      {formatarData(pedido.data)}
+                      {formatarData(pedido.data_pedido)}
                     </p>
                   </div>
                   <div className="flex items-center gap-3">
