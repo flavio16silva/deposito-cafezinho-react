@@ -27,7 +27,7 @@ const Footer = () => {
           {/* Horário de funcionamento */}
           <div className="flex items-center gap-2">
             <FaClock className="text-white text-sm" />
-            <p className="text-gray-400 text-sm font-bold"> Horário de funcionamento: 8h às 18h</p>
+            <p className="text-gray-400 text-sm font-bold"> Horários: 8h às 18h - Todos os dias.</p>
           </div>
 
           {/* Telefone */}
