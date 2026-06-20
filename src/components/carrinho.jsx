@@ -86,7 +86,7 @@ const Carrinho = () => {
 
 
       //ENVIA A MENSAGEM VIA WHATSAPP
-      const numeroWhatsApp = "5571993462490"
+      const numeroWhatsApp = "5571996098690"
 
       const usuario = JSON.parse(localStorage.getItem('usuarioLogado') || '{}')
       const separador = "-".repeat(40)

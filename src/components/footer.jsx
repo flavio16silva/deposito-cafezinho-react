@@ -6,7 +6,7 @@ const Footer = () => {
       <div className="relative flex justify-center">
         <div className="relative -top-5 px-4">
           <h2 className="text-white font-bold text-lg bg-red-600 rounded-full py-2 px-6 inline-block">
-            Depósito Cafezinho
+            Depósito Boa Prosa
           </h2>
         </div>
       </div>
@@ -14,14 +14,14 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto px-4 pb-6">
         {/* Slogan centralizado */}
         <p className="text-gray-400 text-lg text-center font-bold">
-          O melhor salgado da cidade. Faça já o seu pedido.
+          O melhor petisco da cidade. Faça já o seu pedido.
         </p>
 
         {/* Endereço */}
         <div className="flex flex-col md:flex-row justify-around items-center gap-4 mt-6">
           <div className="flex items-center gap-2">
             <FaMapMarkerAlt className="text-white text-sm" />
-            <p className="text-gray-400 text-sm font-bold">Eng. Velho da Federação</p>
+            <p className="text-gray-400 text-sm font-bold">Av. Princesa Isabel, 7. Barra </p>
           </div>
 
           {/* Horário de funcionamento */}
@@ -33,7 +33,7 @@ const Footer = () => {
           {/* Telefone */}
           <div className="flex items-center gap-2">
             <FaWhatsapp className="text-white text-sm" />
-            <p className="text-gray-400 text-sm font-bold">(71) 99346-2490</p>
+            <p className="text-gray-400 text-sm font-bold">(71) 99609-8690</p>
           </div>
         </div>
 

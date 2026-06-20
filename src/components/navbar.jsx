@@ -67,10 +67,10 @@ const Navbar = () => {
                 <CiBeerMugFull className="text-white text-3xl sm:text-xl md:text-2xl shrink-0" />
                 <div className="text-center">
                   <h1 className="font-logo text-lg sm:text-4xl md:text-3xl text-white ">
-                    Depósito Cafezinho
+                    Depósito Boa Prosa
                   </h1>
                   <p className="font-sans text-xs sm:text-sm text-gray-300 whitespace-nowrap text-center">
-                    desde 2024
+                    desde 2010
                   </p>
                 </div>
               </Link>

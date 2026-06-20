@@ -104,7 +104,7 @@ const Login = () => {
         {/* Logo/Título */}
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-white">🍻 Depósito</h1>
-          <h2 className="text-2xl font-bold text-amber-400">Cafezinho</h2>
+          <h2 className="text-2xl font-bold text-amber-400">Boa Prosa</h2>
           <p className="text-gray-400 text-sm mt-2">Faça seu login</p>
         </div>
 
